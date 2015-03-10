@@ -1,8 +1,8 @@
 # Intellij
-./.idea/
-./*.iml
+.idea/
+*.iml
 *.iws
-./out
+out/
 
 # Windows image file caches
 Thumbs.db
