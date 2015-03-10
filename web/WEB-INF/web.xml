@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <servlet>
+        <servlet-name>AutoComplete</servlet-name>
+        <servlet-class>servlet.AutoComplete</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AirportLookup</servlet-name> 
+        <servlet-class>servlet.AirportLookup</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchFlight</servlet-name> 
+        <servlet-class>servlet.SearchFlight</servlet-class>
+    </servlet>
+
+    
+    <servlet-mapping>
+        <servlet-name>SearchFlight</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AirportLookup</servlet-name>
+        <url-pattern>/lookup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AutoComplete</servlet-name>
+        <url-pattern>/auto</url-pattern>
+    </servlet-mapping>
+</web-app>

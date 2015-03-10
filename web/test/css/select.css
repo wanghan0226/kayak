@@ -1,0 +1,48 @@
+.form-line{
+    font-size: 120%;
+}
+.form-input input{
+    height: 37px;
+    font-size: 14px;
+}
+.form-all{
+    width: 800px;
+}
+.form-input{
+    width: 800px;
+}
+.childNode{
+    height: 30px;
+    padding-top: 8px;
+}
+.typeText{
+    font-family: Arial;
+    color: #444444;
+}
+.boldFont{
+    font-weight: bold;
+}
+#input_32{
+    text-align: center;
+}
+#input_33{
+    padding:5px;
+    background:transparent;
+    width:250px;
+    font-size: 14px;
+    /*border:none;*/
+    height:30px;
+    /*-webkit-appearance: none;*/
+}
+#cid_32 input{
+    margin: 0px 0px;
+}
+.numButton{
+    /*padding:5px;*/
+    background: #efefef;
+    /*width:250px;*/
+    font-size: 14px;
+    border:1px solid #979797;
+    /*height:30px;*/
+    /*-webkit-appearance: none;*/
+}
