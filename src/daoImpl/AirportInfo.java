@@ -124,24 +124,9 @@ public class AirportInfo implements AirportFunctions {
     }
 
     public static void main(String[] args) {
-        GregorianCalendar calendar = new GregorianCalendar(2015, 04, 9);
-        Date date = calendar.getTime();
-//        AirportFunctions functions = new AirportInfo();
-//        List list = functions.findArriveNumbers("BOS", date);
-//        System.out.println(list);
-        String s = XmlConnection.getXmlInfo(QueryFactory.getDepartAirplanes("BOS",date));
-        Document document = null;
-        try {
-            document = DocumentHelper.parseText(s);
-        } catch (DocumentException e) {
-           e.printStackTrace();
-        }
-        AirportInfo info = new AirportInfo();
-        Flight flight = info.findFlightByNumber("1734", document);
-        System.out.println(flight);
-//        String price = "$1,3,2,0.72";
-//        String s = price.substring(1);
-//        String ss = s.replace(",","");
-//        System.out.println(ss);
+       String s = "-84.427764";
+       String ss = s.substring(0,s.indexOf("."));
+       int i = Integer.parseInt(ss);
+        System.out.println(i);
     }
 }
