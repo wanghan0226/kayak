@@ -1,9 +1,9 @@
 package factory;
 
-import dao.AirportFunctions;
-import dao.Connect;
-import daoImpl.AirportInfo;
-import daoImpl.ConnectFlights;
+import dao.AirportDao;
+import dao.ConnectDao;
+import daoImpl.AirportDaoImpl;
+import daoImpl.ConnectDaoImpl;
 
 /**
  * Created by pianobean on 3/9/15.
@@ -17,11 +17,11 @@ public class DaoFactory {
         return instance;
     }
 
-    public AirportFunctions getAirportFunctions(){
-        return new AirportInfo();
+    public AirportDao getAirportFunctions(){
+        return new AirportDaoImpl();
     }
 
-    public Connect getConnectFlights(){
-        return new ConnectFlights();
+    public ConnectDao getConnectFlights(){
+        return new ConnectDaoImpl();
     }
 }

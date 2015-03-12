@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by pianobean on 3/9/15.
  */
-public interface AirportFunctions {
+public interface AirportDao {
     public Map<String, String> findCodesAndNames();
     public List<String> findDepartNumbers(String code, Date departDate);
     public List<String> findArriveNumbers(String code, Date departDate);

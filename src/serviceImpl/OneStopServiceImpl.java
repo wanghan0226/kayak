@@ -1,16 +1,18 @@
-package service;
+package serviceImpl;
 
 import beans.Flight;
 import beans.SearchKey;
-import dao.AirportFunctions;
-import dao.Connect;
-import daoImpl.ConnectFlights;
+import dao.AirportDao;
+import dao.ConnectDao;
 import factory.DaoFactory;
+import factory.ServiceFactory;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import service.OneStopService;
+import util.ConstantVariable;
 import util.QueryFactory;
 import util.XmlConnection;
 
@@ -20,13 +22,11 @@ import java.util.*;
 /**
  * Created by pianobean on 3/11/15.
  */
-public class OneStopConnection {
-    public static final String FIRST="first";
-    public static final String COACH="coach";
+public class OneStopServiceImpl implements OneStopService{
     private static Document airports;
     static {
         SAXReader reader = new SAXReader();
-        Class clazz = OneStopConnection.class;
+        Class clazz = OneStopServiceImpl.class;
         URL url =clazz.getClassLoader().getResource("Xml/airports.xml");
         try {
             airports = reader.read(url);
@@ -36,12 +36,12 @@ public class OneStopConnection {
     }
     private static List<List<String>> findMatchFlights(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
         boolean flag = true;
-        if(seatType==OneStopConnection.FIRST) flag=false;
+        if(seatType== ConstantVariable.FIRST) flag=false;
         List<List<String>> list = new ArrayList<List<String>>();
-        Connect connect = DaoFactory.getInstance().getConnectFlights();
-        List<SearchKey> departKeys = connect.airportSearchInfo(depart, ConnectFlights.DEPART);
-        List<SearchKey> arriveKeys = connect.airportSearchInfo(arrive, ConnectFlights.ARRIVE);
-        List<SearchKey> nextDayKeys = connect.airportSearchInfo(arrNextDay,ConnectFlights.ARRIVE);
+        ConnectDao connect = DaoFactory.getInstance().getConnectFlights();
+        List<SearchKey> departKeys = connect.airportSearchInfo(depart, ConstantVariable.DEPART);
+        List<SearchKey> arriveKeys = connect.airportSearchInfo(arrive, ConstantVariable.ARRIVE);
+        List<SearchKey> nextDayKeys = connect.airportSearchInfo(arrNextDay, ConstantVariable.ARRIVE);
         if(flag){
             for(SearchKey key: departKeys){
                 String code = key.getAirportCode();
@@ -111,7 +111,7 @@ public class OneStopConnection {
     private static List<List<Flight>> findValidOneStopFlights(List<List<String>> choices, Document deDoc, Document arDoc, Document arNextDoc){
         List<List<Flight>> list = new ArrayList<List<Flight>>();
         Iterator it = choices.iterator();
-        AirportFunctions functions = DaoFactory.getInstance().getAirportFunctions();
+        AirportDao functions = DaoFactory.getInstance().getAirportFunctions();
         while (it.hasNext()){
             List<String> pair = (List<String>) it.next();
             String deNum = pair.get(0);
@@ -140,7 +140,7 @@ public class OneStopConnection {
         return list;
     }
 
-    public static List<List<Flight>> validOneStop(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
+    public List<List<Flight>> validOneStop(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
         List raw = findMatchFlights(seatType,numOfPassenger,depart,arrive,arrNextDay);
         List<List<Flight>> list = findValidOneStopFlights(raw,depart,arrive,arrNextDay);
         return list;
@@ -187,8 +187,8 @@ public class OneStopConnection {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-        List list = validOneStop(OneStopConnection.FIRST, 10, departdoc,arrivedoc,arrivedoc1);
-//       List validList = findValidOneStopFlights(list, departdoc, arrivedoc, arrivedoc1);
+        OneStopService stopService = ServiceFactory.getInstance().getOneStopService();
+        List list = stopService.validOneStop(ConstantVariable.COACH, 10, departdoc,arrivedoc,arrivedoc1);
         System.out.println(list);
     }
 }

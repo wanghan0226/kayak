@@ -1,7 +1,7 @@
 package daoImpl;
 
 import beans.Flight;
-import dao.AirportFunctions;
+import dao.AirportDao;
 import org.dom4j.*;
 import org.dom4j.io.SAXReader;
 import util.QueryFactory;
@@ -15,13 +15,13 @@ import java.util.*;
 /**
  * Created by pianobean on 3/8/15.
  */
-public class AirportInfo implements AirportFunctions {
+public class AirportDaoImpl implements AirportDao {
 
     public Map<String, String> findCodesAndNames() {
         Map<String, String> map = new HashMap<String, String>();
         SAXReader reader = new SAXReader();
         Document document = null;
-        Class clazz = AirportInfo.class;
+        Class clazz = AirportDaoImpl.class;
         URL url =clazz.getClassLoader().getResource("Xml/airports.xml");
         try {
             document = reader.read(url);

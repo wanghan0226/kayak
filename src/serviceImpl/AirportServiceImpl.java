@@ -1,17 +1,19 @@
-package service;
+package serviceImpl;
 
-import dao.AirportFunctions;
+import dao.AirportDao;
 import factory.DaoFactory;
+import service.AirportService;
+
 import java.util.*;
 
 /**
  * Created by pianobean on 3/8/15.
  */
-public class SearchAirport {
-    public static String generateName(String keyWords){
+public class AirportServiceImpl implements AirportService{
+    public String generateName(String keyWords){
         StringBuilder sb = new StringBuilder();
         //use the factory design pattern to decoupling
-        AirportFunctions info = DaoFactory.getInstance().getAirportFunctions();
+        AirportDao info = DaoFactory.getInstance().getAirportFunctions();
         Map map = info.findCodesAndNames();
         Iterator iterator = map.entrySet().iterator();
         while (iterator.hasNext()){

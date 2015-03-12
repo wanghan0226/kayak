@@ -1,6 +1,8 @@
 package servlet;
 
-import service.SearchAirport;
+import factory.ServiceFactory;
+import service.AirportService;
+import serviceImpl.AirportServiceImpl;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by pianobean on 2/28/15.
  */
-@WebServlet(name = "AirportFunctions")
+@WebServlet(name = "AirportDao")
 public class AirportLookup extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doGet(request,response);
@@ -19,8 +21,8 @@ public class AirportLookup extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String word = request.getParameter("word").toLowerCase();
-        String result = SearchAirport.generateName(word);
+        AirportService service = ServiceFactory.getInstance().getAirportService();
+        String result = service.generateName(word);
         response.getWriter().println(result);
-
     }
 }
