@@ -1,8 +1,10 @@
 package factory;
 
 import service.AirportService;
+import service.NonStopService;
 import service.OneStopService;
 import serviceImpl.AirportServiceImpl;
+import serviceImpl.NonStopServiceImpl;
 import serviceImpl.OneStopServiceImpl;
 
 /**
@@ -19,5 +21,8 @@ public class ServiceFactory {
     }
     public OneStopService getOneStopService(){
         return new OneStopServiceImpl();
+    }
+    public NonStopService getNonStopService(){
+        return new NonStopServiceImpl();
     }
 }

@@ -102,7 +102,7 @@
           <span class="form-required"> * </span>
         </label>
         <div id="cid_11" class="form-input jf-required">
-          <input type="text" placeholder="Departure Airport Name" id="airportD" style="width: 400px" onblur="checkEmpty(this)">
+          <input type="text" placeholder="Departure Airport Name" name="deCode" id="airportD" style="width: 400px" onblur="checkEmpty(this)">
           <span class="erroMessage"></span>
         </div>
         <div id="deAirport"></div>
@@ -113,7 +113,7 @@
           <span class="form-required"> * </span>
         </label>
         <div id="cid_12" class="form-input jf-required">
-          <input id="airportA" placeholder="Arrival Airport Name" type="text" style="width:400px" onblur="checkEmpty(this)" />
+          <input id="airportA" name="arCode" placeholder="Arrival Airport Name" type="text" style="width:400px" onblur="checkEmpty(this)" />
           <span class="erroMessage"></span>
         </div>
         <div id="arAirport"></div>
@@ -140,7 +140,7 @@
           <span class="form-required"> * </span>
         </label>
         <div id="cid_15" class="form-input jf-required">
-          <input id="calendar1" type="text" style="width: 250px" placeholder="Depart" onblur="checkDate(this)"/>
+          <input id="calendar1" type="text" style="width: 250px" name="deDate" placeholder="Depart" onblur="checkDate(this)"/>
           <img id="input_15_pick" class="showAutoCalendar" align="absmiddle" src="http://d2g9qbzl5h49rh.cloudfront.net/images/calendar.png" alt="Pick a Date">
           <span></span>
         </div>
@@ -151,9 +151,8 @@
           <span class="form-required"> * </span>
         </label>
         <div id="cid_33" class="form-input jf-required">
-          <select id="input_33" class="form-dropdown validate[required]" name="q33_seat[]" style="width:150px">
+          <select id="input_33" class="form-dropdown validate[required]" name="seat" style="width:150px">
             <option value="First"> First </option>
-            <option value="Business"> Business </option>
             <option value="Coach"> Coach </option>
           </select>
         </div>
@@ -165,7 +164,7 @@
         </label>
         <div id="cid_32" class="form-input jf-required">
             <input type="button" class="numButton" id="plus" width="50" value="-" onclick="numMinus()">
-            <input id="input_32" type="text" style="width: 50px;" value="1" onblur="checkNum(this)"/>
+            <input id="input_32" name="passenger" type="text" style="width: 50px;" value="1" onblur="checkNum(this)"/>
             <input type="button" class="numButton" id="minus" width="50" value="+" onclick="numPlus()">
             <span></span>
         </div>

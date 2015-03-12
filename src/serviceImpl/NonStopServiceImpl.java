@@ -5,13 +5,9 @@ import beans.Flight;
 import dao.AirportDao;
 import factory.DaoFactory;
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import service.NonStopService;
 import util.ConstantVariable;
-import util.QueryFactory;
-import util.XmlConnection;
 
 import java.util.*;
 

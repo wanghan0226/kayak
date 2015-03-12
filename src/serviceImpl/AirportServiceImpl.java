@@ -2,7 +2,12 @@ package serviceImpl;
 
 import dao.AirportDao;
 import factory.DaoFactory;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import service.AirportService;
+import util.QueryFactory;
+import util.XmlConnection;
 
 import java.util.*;
 
@@ -34,5 +39,27 @@ public class AirportServiceImpl implements AirportService{
             String result = sb.substring(0, sb.length() - 1);
             return result;
         }
+    }
+
+    public Document getDepartDom(String code, Date date){
+        String departFile = XmlConnection.getXmlInfo(QueryFactory.getDepartAirplanes(code, date));
+        Document document = null;
+        try {
+            document = DocumentHelper.parseText(departFile);
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
+        }
+        return document;
+    }
+
+    public Document getArriveDom(String code, Date date){
+        String departFile = XmlConnection.getXmlInfo(QueryFactory.getArriveAirplanes(code, date));
+        Document document = null;
+        try {
+            document = DocumentHelper.parseText(departFile);
+        } catch (DocumentException e) {
+            throw new RuntimeException(e);
+        }
+        return document;
     }
 }
