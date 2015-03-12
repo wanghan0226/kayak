@@ -16,4 +16,5 @@ public interface AirportFunctions {
     public List<String> findDepartNumbers(String code, Date departDate);
     public List<String> findArriveNumbers(String code, Date departDate);
     public Flight findFlightByNumber(String num, Document document);
+
 }
