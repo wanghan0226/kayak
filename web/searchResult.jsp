@@ -200,6 +200,6 @@
       <%--</div>--%>
     </div>
   </div>
-${goNonStop}
+${showInfo}
 </body>
 </html>

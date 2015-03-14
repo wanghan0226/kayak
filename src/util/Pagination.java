@@ -76,7 +76,6 @@ public class Pagination {
 
             if(extra!=0) {
                 int startIndex = (pageNum - divide - 1) * SIZE + (SIZE - extra);
-                System.out.println(divide + startIndex);
                 for (int i = startIndex; i < oneStop.size(); i++) {
                     content.add(oneStop.get(i));
                 }
@@ -93,50 +92,12 @@ public class Pagination {
     }
     public static void main(String[] args) {
         ArrayList a = new ArrayList();
-        a.add("start");
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add("end");
-
-        a.add("start1");
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add(1111);
-        a.add("end1");
-
-
 
         ArrayList b = new ArrayList();
-        b.add(2222);
-        b.add(2222);
-        b.add(2222);
-        b.add(2222);
-        b.add(2222);
-        b.add(2222);
-        b.add(2222);
-        b.add(2222);
-        b.add(2222);
-        b.add(2222);
+        String s = "fdjksf";
+        if(s instanceof String){
+            System.out.println("good");
+        }
 
-
-
-        Map map = distinguish(a,b,3);
-//        Iterator it = map.entrySet().iterator();
-//        while (it.hasNext()){
-//            Map.Entry entry = (Map.Entry) it.next();
-//            System.out.println(entry.getKey()+"---"+entry.getValue());
-//        }
-        System.out.println(map);
     }
 }
