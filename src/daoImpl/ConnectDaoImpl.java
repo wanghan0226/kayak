@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by pianobean on 3/11/15.
+ * @author pianobean
  */
 public class ConnectDaoImpl implements ConnectDao {
     public List<SearchKey> airportSearchInfo(Document document, String airportType){

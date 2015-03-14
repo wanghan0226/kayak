@@ -1,7 +1,7 @@
 package util;
 
 /**
- * Created by pianobean on 3/12/15.
+ * @author pianobean
  */
 public class ConstantVariable {
     public static final String FIRST="first";

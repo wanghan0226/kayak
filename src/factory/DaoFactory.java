@@ -6,7 +6,7 @@ import daoImpl.AirportDaoImpl;
 import daoImpl.ConnectDaoImpl;
 
 /**
- * Created by pianobean on 3/9/15.
+ * @author pianobean
  */
 public class DaoFactory {
     //singleton design pattern

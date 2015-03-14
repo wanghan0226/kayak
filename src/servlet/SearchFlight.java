@@ -20,7 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by pianobean on 3/2/15.
+ * @author  pianobean on 3/2/15.
  */
 @WebServlet(name = "SearchFlight")
 public class SearchFlight extends HttpServlet {

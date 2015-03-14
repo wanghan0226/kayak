@@ -3,7 +3,7 @@ package beans;
 import java.util.Date;
 
 /**
- * Created by pianobean on 3/9/15.
+ * @author  pianobean
  */
 public class Flight {
     private String planeType;

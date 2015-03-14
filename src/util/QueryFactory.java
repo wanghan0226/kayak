@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Created by pianobean on 3/5/15.
+ * @author pianobean
+ * This class generate the condition part in the url
+ * which is used to get the xml.
  */
 public class QueryFactory {
     public static String getAirports(){

@@ -12,7 +12,7 @@ import util.ConstantVariable;
 import java.util.*;
 
 /**
- * Created by pianobean on 3/12/15.
+ * @author pianobean on 3/12/15.
  */
 public class NonStopServiceImpl implements NonStopService{
     public List<Flight> findNonStopFlights(String seatType, int numOfPassenger, String arCode, Document document){
