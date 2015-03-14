@@ -17,7 +17,8 @@ public class AutoComplete extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String word = request.getParameter("word");
-        request.getRequestDispatcher("/test/xml/words.xml").forward(request,response);
+//        String word = request.getParameter("word");
+        response.getWriter().write("dsfdsfdsf");
+//        request.getRequestDispatcher("/test/xml/words.xml").forward(request,response);
     }
 }

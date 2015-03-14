@@ -6,6 +6,9 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import service.AirportService;
+import service.NonStopService;
+import util.ConstantVariable;
+import util.DateFormater;
 import util.QueryFactory;
 import util.XmlConnection;
 
@@ -61,5 +64,15 @@ public class AirportServiceImpl implements AirportService{
             throw new RuntimeException(e);
         }
         return document;
+    }
+
+    public static void main(String[] args) {
+        String date = "5/11/2015";
+        Date depart = DateFormater.format(date);
+        AirportServiceImpl service = new AirportServiceImpl();
+        Document dom = service.getDepartDom("BOS", depart);
+        NonStopServiceImpl non = new NonStopServiceImpl();
+        List list = non.findNonStopFlights(ConstantVariable.COACH, 1, "MIA", dom);
+        System.out.println(list);
     }
 }

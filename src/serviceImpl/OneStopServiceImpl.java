@@ -105,11 +105,10 @@ public class OneStopServiceImpl implements OneStopService{
                 }
             }
         }
-
         return list;
     }
     private static List<List<Flight>> findValidOneStopFlights(List<List<String>> choices, Document deDoc, Document arDoc, Document arNextDoc){
-        List<List<Flight>> list = new ArrayList<List<Flight>>();
+            List<List<Flight>> list = new ArrayList<List<Flight>>();
         Iterator it = choices.iterator();
         AirportDao functions = DaoFactory.getInstance().getAirportFunctions();
         while (it.hasNext()){
@@ -130,7 +129,7 @@ public class OneStopServiceImpl implements OneStopService{
             long lastHalf = distance(arriveFlight.getDepartCode(),arriveFlight.getArriveCode());
 
             if((firstHalf+lastHalf)<distance*2){
-                System.out.println(distance+"---"+(firstHalf+lastHalf));
+//                System.out.println(distance+"---"+(firstHalf+lastHalf));
                 List<Flight> validPair = new ArrayList<Flight>();
                 validPair.add(departFlight);
                 validPair.add(arriveFlight);

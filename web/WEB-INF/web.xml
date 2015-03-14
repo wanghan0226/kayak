@@ -15,8 +15,16 @@
         <servlet-name>SearchFlight</servlet-name> 
         <servlet-class>servlet.SearchFlight</servlet-class>
     </servlet>
-
+    <servlet>
+        <servlet-name>PageSeperator</servlet-name> 
+        <servlet-class>servlet.PageSeperator</servlet-class>
+    </servlet>
     
+    
+    <servlet-mapping>
+        <servlet-name>PageSeperator</servlet-name>
+        <url-pattern>/page</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SearchFlight</servlet-name>
         <url-pattern>/search</url-pattern>

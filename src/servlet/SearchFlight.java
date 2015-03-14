@@ -5,6 +5,7 @@ import org.dom4j.Document;
 import service.AirportService;
 import service.NonStopService;
 import service.OneStopService;
+import service.PairFlights;
 import util.ConstantVariable;
 import util.DateFormater;
 
@@ -40,6 +41,16 @@ public class SearchFlight extends HttpServlet {
         String arDate = request.getParameter("arDate");
         String seat = request.getParameter("seat");
         int passenger = Integer.parseInt(request.getParameter("passenger"));
+
+        //告知下一层是单程还是往返
+        request.setAttribute("type",type);
+
+        //分页信息
+        String pageNumber = request.getParameter("pageNumber");
+        if(pageNumber!=null){
+            request.setAttribute("pageNumber", pageNumber);
+        }
+
         //获取出发机场dom文件
         Date depart = DateFormater.format(deDate);
         Document deDom = service.getDepartDom(departCode, depart);
@@ -55,11 +66,7 @@ public class SearchFlight extends HttpServlet {
         //获取一次转机的匹配集合
         List flightsOne = oneStop.validOneStop(seat == "First" ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, deDom, arDom, nextDom);
         //获取直达航班
-        List flightNon = nonStop.findNonStopFlights(seat == "First" ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,arriveCode,deDom);
-
-        //放入request域
-        request.setAttribute("goOneStop",flightsOne);
-        request.setAttribute("goNonStop",flightNon);
+        List flightsNon = nonStop.findNonStopFlights(seat == "First" ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,arriveCode,deDom);
         /*
             返程航班
          */
@@ -77,10 +84,19 @@ public class SearchFlight extends HttpServlet {
 
             List reFlightsOne = oneStop.validOneStop(seat == "First" ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,returnDeDom,returnArDom,returnNextDom);
             List reFlightsNon = nonStop.findNonStopFlights(seat == "First" ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,departCode,returnDeDom);
-            request.setAttribute("comeOneStop",reFlightsOne);
-            request.setAttribute("comeNonStop",reFlightsNon);
+
+            //将出发航班与返回航班进行匹配
+            PairFlights pairUp = ServiceFactory.getInstance().getPairFlights();
+            List pairOne = pairUp.pairOneStop(flightsOne, reFlightsOne);
+            List pairNon = pairUp.pairNonStop(flightsNon,reFlightsNon);
+            request.setAttribute("pairOne",pairOne);
+            request.setAttribute("pairNon",pairNon);
+        }else {
+            //放入request域
+            request.setAttribute("goOneStop",flightsOne);
+            request.setAttribute("goNonStop",flightsNon);
         }
-        request.getRequestDispatcher("/searchResult.jsp").forward(request,response);
+        request.getRequestDispatcher("/page").forward(request,response);
     }
 
 }
