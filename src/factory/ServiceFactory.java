@@ -10,7 +10,7 @@ import serviceImpl.OneStopServiceImpl;
 import serviceImpl.PairFlightsImpl;
 
 /**
- * Created by pianobean on 3/12/15.
+ *@author pianobean on 3/12/15.
  */
 public class ServiceFactory {
     private static final ServiceFactory instance = new ServiceFactory();

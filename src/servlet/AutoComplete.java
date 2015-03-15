@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by pianobean on 2/27/15.
+ * @author pianobean on 2/27/15.
  */
 @WebServlet(name = "AutoComplete")
 public class AutoComplete extends HttpServlet {

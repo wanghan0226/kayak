@@ -15,7 +15,7 @@ import util.XmlConnection;
 import java.util.*;
 
 /**
- * Created by pianobean on 3/8/15.
+ * @author pianobean on 3/8/15.
  */
 public class AirportServiceImpl implements AirportService{
     public String generateName(String keyWords){

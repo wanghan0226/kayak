@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Created by pianobean on 3/8/15.
+ * @author pianobean
  */
 public class AirportDaoImpl implements AirportDao {
 
@@ -22,7 +22,7 @@ public class AirportDaoImpl implements AirportDao {
         SAXReader reader = new SAXReader();
         Document document = null;
         Class clazz = AirportDaoImpl.class;
-        URL url =clazz.getClassLoader().getResource("Xml/airports.xml");
+        URL url = clazz.getClassLoader().getResource("Xml/airports.xml");
         try {
             document = reader.read(url);
         } catch (DocumentException e) {

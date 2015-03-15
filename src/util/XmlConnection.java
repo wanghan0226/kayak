@@ -8,7 +8,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Created by pianobean on 3/5/15.
+ * @ author pianobean
+ * This class set the Connection to the given URL
+ * And get the xml file as a String
+ *
  */
 public class XmlConnection {
     private static final String mUrlBase = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
@@ -21,11 +24,13 @@ public class XmlConnection {
         StringBuffer result = new StringBuffer();
 
         try{
+            //open the HttpURLConnection by given url.
             url = new URL(mUrlBase+condition);
             connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             int responseCode = connection.getResponseCode();
 
+            //Read the xml if request succeeded.
             if((responseCode>=200)&&(responseCode<=299)){
                 InputStream inputStream = connection.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -41,6 +46,7 @@ public class XmlConnection {
         return result.toString();
     }
 
+    //Test the connection
     public static void main(String[] args) {
         GregorianCalendar calendar = new GregorianCalendar(2015, 04, 9);
         Date date = calendar.getTime();

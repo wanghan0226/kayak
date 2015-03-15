@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by pianobean on 3/2/15.
+ * @author  pianobean on 3/2/15.
  */
 @WebServlet(name = "SearchFlight")
 public class SearchFlight extends HttpServlet {

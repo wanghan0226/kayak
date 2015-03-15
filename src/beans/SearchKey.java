@@ -3,7 +3,7 @@ package beans;
 import java.util.Date;
 
 /**
- * Created by pianobean on 3/11/15.
+ * @author pianobean
  */
 public class SearchKey {
     private String number;

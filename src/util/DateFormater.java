@@ -5,7 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by pianobean on 3/12/15.
+ * @author  pianobean
+ * This class help to format the input date to given format.
  */
 public class DateFormater {
     public static Date format(String input){

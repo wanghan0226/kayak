@@ -1,7 +1,7 @@
 package beans;
 
 /**
- * Created by pianobean on 3/9/15.
+ * @author  pianobean
  */
 public class AirPlane {
     private String manufacturer;
