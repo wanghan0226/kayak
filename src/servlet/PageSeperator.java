@@ -32,11 +32,13 @@ public class PageSeperator extends HttpServlet {
         }
         Map showInfo = null;
         if(type.equals("oneWay")){//如果是单程
+            request.setAttribute("trip","single");
             //首先获取直飞和转机的航班
             List oneStop = (List) request.getAttribute("goOneStop");
             List nonStop = (List) request.getAttribute("goNonStop");
             showInfo = Pagination.distinguish(nonStop,oneStop,pageNumber);
-        }else {//
+        }else {//如果有返航
+            request.setAttribute("trip","round");
             List pairOne = (List) request.getAttribute("pairOne");
             List pairNon = (List) request.getAttribute("pairNon");
             showInfo = Pagination.distinguish(pairNon, pairOne, pageNumber);

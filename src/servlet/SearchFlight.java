@@ -6,6 +6,7 @@ import service.AirportService;
 import service.NonStopService;
 import service.OneStopService;
 import service.PairFlights;
+import util.AirportNames;
 import util.ConstantVariable;
 import util.DateFormater;
 
@@ -14,10 +15,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by pianobean on 3/2/15.
@@ -32,6 +35,12 @@ public class SearchFlight extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+       //先将保存机场名字的map存入session
+        Map airportNames = AirportNames.airportNames;
+        session.setAttribute("airNames",airportNames);
+
+        //获取提交参数
         String deCode = request.getParameter("deCode");
         String departCode = deCode.substring(deCode.indexOf("(") + 1, deCode.length() - 1);
         String arCode = request.getParameter("arCode");
@@ -41,6 +50,9 @@ public class SearchFlight extends HttpServlet {
         String arDate = request.getParameter("arDate");
         String seat = request.getParameter("seat");
         int passenger = Integer.parseInt(request.getParameter("passenger"));
+
+        //将座位信息告知下一层
+        request.setAttribute("seat", seat);
 
         //告知下一层是单程还是往返
         request.setAttribute("type",type);
