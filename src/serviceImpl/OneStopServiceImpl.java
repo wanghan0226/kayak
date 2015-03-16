@@ -139,6 +139,7 @@ public class OneStopServiceImpl implements OneStopService{
         return list;
     }
 
+    @Override
     public List<List<Flight>> validOneStop(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
         List raw = findMatchFlights(seatType,numOfPassenger,depart,arrive,arrNextDay);
         List<List<Flight>> list = findValidOneStopFlights(raw,depart,arrive,arrNextDay);
