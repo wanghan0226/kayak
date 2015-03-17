@@ -1,5 +1,6 @@
 package servlet;
 
+import beans.Trip;
 import factory.ServiceFactory;
 import org.dom4j.Document;
 import service.AirportService;
@@ -52,19 +53,29 @@ public class SearchFlight extends HttpServlet {
         int passenger = Integer.parseInt(request.getParameter("passenger"));
 
         //将座位信息告知下一层
-        request.setAttribute("seat", seat);
+        session.setAttribute("seat", seat);
 
         //告知下一层是单程还是往返
-        request.setAttribute("type",type);
+        session.setAttribute("type",type);
 
         //分页信息
-        String pageNumber = request.getParameter("pageNumber");
-        if(pageNumber!=null){
-            request.setAttribute("pageNumber", pageNumber);
-        }
+//        String pageNumber = request.getParameter("pageNumber");
+//        if(pageNumber!=null){
+//            request.setAttribute("pageNumber", pageNumber);
+//        }
+
+       //获取出发时间
+        Date depart = DateFormater.format(deDate);
+
+        //将航程信息封装到Trip对象中
+        Trip trip = new Trip();
+        trip.setDepartCode(departCode);
+        trip.setArriveCode(arriveCode);
+        trip.setGoDate(depart);
+        trip.setSeat(seat);
+        trip.setPassenger(passenger);
 
         //获取出发机场dom文件
-        Date depart = DateFormater.format(deDate);
         Document deDom = service.getDepartDom(departCode, depart);
         //获取当天到达机场dom文件
         Document arDom = service.getArriveDom(arriveCode, depart);
@@ -76,6 +87,7 @@ public class SearchFlight extends HttpServlet {
         Document nextDom = service.getArriveDom(arriveCode, nextDay);
 
 
+
         //获取一次转机的匹配集合
         List flightsOne = oneStop.validOneStop(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, deDom, arDom, nextDom);
         //获取直达航班
@@ -84,8 +96,13 @@ public class SearchFlight extends HttpServlet {
             返程航班
          */
         if(arDate!=null){
-            //获取出发机场dom文件
+            //获取返航时间
             Date returnDepart = DateFormater.format(arDate);
+
+            //将返航日期封装入Trip
+            trip.setBackDate(returnDepart);
+
+            //获取出发机场dom文件
             Document returnDeDom = service.getDepartDom(arriveCode, returnDepart);
             //获取当天到达机场dom文件
             Document returnArDom = service.getArriveDom(departCode,returnDepart);
@@ -102,13 +119,31 @@ public class SearchFlight extends HttpServlet {
             PairFlights pairUp = ServiceFactory.getInstance().getPairFlights();
             List pairOne = pairUp.pairOneStop(flightsOne, reFlightsOne);
             List pairNon = pairUp.pairNonStop(flightsNon,reFlightsNon);
-            request.setAttribute("pairOne",pairOne);
-            request.setAttribute("pairNon",pairNon);
+
+            //将搜索总数存入session以便分页
+            int totalItems = pairOne.size()+pairNon.size();
+            System.out.println(totalItems);
+            int pageNumbers = (int) Math.ceil((double)totalItems/10);
+            System.out.println(pageNumbers);
+            session.setAttribute("totalPages", pageNumbers);
+
+            //将搜索结果传给下一层
+            session.setAttribute("pairOne",pairOne);
+            session.setAttribute("pairNon",pairNon);
         }else {
-            //放入request域
-            request.setAttribute("goOneStop",flightsOne);
-            request.setAttribute("goNonStop",flightsNon);
+            //将搜索总数存入session以便分页
+            int totalItems = flightsOne.size()+flightsNon.size();
+            System.out.println(totalItems);
+            int pageNumbers = (int) Math.ceil((double)totalItems/10);
+            System.out.println(pageNumbers);
+            session.setAttribute("totalPages", pageNumbers);
+
+            //将搜索结果传给下一层
+            session.setAttribute("goOneStop",flightsOne);
+            session.setAttribute("goNonStop",flightsNon);
         }
+        //将trip存入session
+        session.setAttribute("tripInfo", trip);
         request.getRequestDispatcher("/page").forward(request,response);
     }
 

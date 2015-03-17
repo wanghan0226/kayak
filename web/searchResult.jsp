@@ -24,16 +24,22 @@
       <div id="changeCon">
         <table id="originalInfo">
           <tbody>
-            <tr>
-              <td id="tripTitle">BOS - NYC</td>
-              <td>Mar 18 - Mar 21</td>
-              <td>Economy</td>
-              <td>1 Traveler</td>
-              <td><input id="changeBtn" type="button" value="Change"></td>
-            </tr>
-            <tr>
-              <td></td>
-            </tr>
+          <tr>
+            <td id="tripTitle">${tripInfo.departCode} - ${tripInfo.arriveCode}</td>
+            <c:choose>
+              <c:when test="${trip=='single'}">
+                <fmt:setLocale value="en_US"/>
+                <td><fmt:formatDate value="${tripInfo.goDate}" pattern="MMM dd"/> </td>
+              </c:when>
+              <c:otherwise>
+                <fmt:setLocale value="en_US"/>
+                <td><fmt:formatDate value="${tripInfo.goDate}" pattern="MMM dd"/> - <fmt:formatDate value="${tripInfo.backDate}" pattern="MMM dd"/></td>
+              </c:otherwise>
+            </c:choose>
+            <td>${tripInfo.seat}</td>
+            <td>${tripInfo.passenger} Traveler</td>
+            <td><input id="changeBtn" type="button" value="Change"></td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -69,7 +75,6 @@
             <%--该页全是转机路线,并且是单程航线--%>
             <c:when test="${map.key=='ONE' && trip=='single'}">
               <%@include file="/WEB-INF/jsp/singleOneFlight.jsp"%>
-              ${map.key.getClass().name}
             </c:when>
             <%--该页全是转机路线,并且是往返航线--%>
             <c:when test="${map.key=='ONE' && trip=='round'}">
@@ -92,145 +97,16 @@
           </c:otherwise>
         </c:choose>
       </c:forEach>
-
-      <%--&lt;%&ndash;单元格格式&ndash;%&gt;--%>
-      <%--<div class="cell">--%>
-        <%--&lt;%&ndash;左半部分&ndash;%&gt;--%>
-        <%--<div class="left">--%>
-          <%--<div class="price">--%>
-            <%--$277--%>
-          <%--</div>--%>
-          <%--<div class="select">--%>
-            <%--<input type="button" value="Select"/>--%>
-          <%--</div>--%>
-        <%--</div>--%>
-        <%--&lt;%&ndash;右半部分&ndash;%&gt;--%>
-        <%--<div class="right">--%>
-          <%--<table class="flightDetail">--%>
-            <%--<tr>--%>
-              <%--<td><img src="/test/image/0W.gif"></td>--%>
-              <%--<td>AirlineName</td>--%>
-              <%--<td>BOS <b>7:30AM</b></td>--%>
-              <%--<td>JFK <b>8:20PM</b></td>--%>
-              <%--<td class="minorInfo">2h 15m</td>--%>
-              <%--<td class="minorInfo">1 stop(IST)</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-              <%--<td><img src="/test/image/0W.gif"></td>--%>
-              <%--<td>AirlineName</td>--%>
-              <%--<td>BOS <b>7:30AM</b></td>--%>
-              <%--<td>JFK <b>8:20PM</b></td>--%>
-              <%--<td class="minorInfo">2h 15m</td>--%>
-              <%--<td class="minorInfo">1 stop(IST)</td>--%>
-            <%--</tr>--%>
-            <%--<tr>--%>
-              <%--<td colspan="4"><a href="#" onclick="showDetail(this)" class="detailLink">Show Detail</a></td>--%>
-            <%--</tr>--%>
-          <%--</table>--%>
-        <%--</div>--%>
-          <%--&lt;%&ndash;飞行转机细节&ndash;%&gt;--%>
-        <%--<div class="transferDetail">--%>
-          <%--&lt;%&ndash;出发航程&ndash;%&gt;--%>
-          <%--<div class="departDetail">--%>
-            <%--<table>--%>
-              <%--<tr>--%>
-                <%--<td colspan="5"><div class="subTitle">Depart: Boston, MA, Logan Intl (BOS) , Tue, Mar 10</div></td>--%>
-              <%--</tr>--%>
-              <%--<tr>--%>
-                <%--<td><img src="/test/image/0W.gif"></td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">American Airlines</div>--%>
-                  <%--<div class="minorInfo">Flight 8475</div>--%>
-                <%--</td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">BOS <b>1:00 PM</b></div>--%>
-                  <%--<div class="minorInfo">Tuesday</div>--%>
-                <%--</td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">NRT <b>3:35 PM</b></div>--%>
-                  <%--<div class="minorInfo">Wednesday</div>--%>
-                <%--</td>--%>
-                <%--<td class="minorInfo">13hr 35min</td>--%>
-              <%--</tr>--%>
-              <%--<tr>--%>
-                <%--<td colspan="5"><div class="subTitle">Connection in Tokyo, Japan, Narita Intl (NRT) for 2hr 30min</div></td>--%>
-              <%--</tr>--%>
-              <%--<tr>--%>
-                <%--<td><img src="/test/image/0W.gif"></td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">American Airlines</div>--%>
-                  <%--<div class="minorInfo">Flight 8475</div>--%>
-                <%--</td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">BOS <b>1:00 PM</b></div>--%>
-                  <%--<div class="minorInfo">Tuesday</div>--%>
-                <%--</td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">NRT <b>3:35 PM</b></div>--%>
-                  <%--<div class="minorInfo">Wednesday</div>--%>
-                <%--</td>--%>
-                <%--<td class="minorInfo">13hr 35min</td>--%>
-              <%--</tr>--%>
-              <%--<tr>--%>
-                <%--<td colspan="5"><div class="subTitle">Arrive: Beijing, China, Beijing Capital Int. (PEK) , Wed, Mar 11</div></td>--%>
-              <%--</tr>--%>
-            <%--</table>--%>
-          <%--</div>--%>
-          <%--&lt;%&ndash;返回航程&ndash;%&gt;--%>
-          <%--<div class="departDetail">--%>
-            <%--<hr>--%>
-            <%--<table>--%>
-              <%--<tr>--%>
-                <%--<td colspan="5"><div class="subTitle">Depart: Boston, MA, Logan Intl (BOS) , Tue, Mar 10</div></td>--%>
-              <%--</tr>--%>
-              <%--<tr>--%>
-                <%--<td><img src="/test/image/0W.gif"></td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">American Airlines</div>--%>
-                  <%--<div class="minorInfo">Flight 8475</div>--%>
-                <%--</td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">BOS <b>1:00 PM</b></div>--%>
-                  <%--<div class="minorInfo">Tuesday</div>--%>
-                <%--</td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">NRT <b>3:35 PM</b></div>--%>
-                  <%--<div class="minorInfo">Wednesday</div>--%>
-                <%--</td>--%>
-                <%--<td class="minorInfo">13hr 35min</td>--%>
-              <%--</tr>--%>
-              <%--<tr>--%>
-                <%--<td colspan="5"><div class="subTitle">Connection in Tokyo, Japan, Narita Intl (NRT) for 2hr 30min</div></td>--%>
-              <%--</tr>--%>
-              <%--<tr>--%>
-                <%--<td><img src="/test/image/0W.gif"></td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">American Airlines</div>--%>
-                  <%--<div class="minorInfo">Flight 8475</div>--%>
-                <%--</td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">BOS <b>1:00 PM</b></div>--%>
-                  <%--<div class="minorInfo">Tuesday</div>--%>
-                <%--</td>--%>
-                <%--<td>--%>
-                  <%--<div class="floatTitle">NRT  <b>3:35 PM</b></div>--%>
-                  <%--<div class="minorInfo">Wednesday</div>--%>
-                <%--</td>--%>
-                <%--<td class="minorInfo">13hr 35min</td>--%>
-              <%--</tr>--%>
-              <%--<tr>--%>
-                <%--<td colspan="5"><div class="subTitle">Arrive: Beijing, China, Beijing Capital Int. (PEK) , Wed, Mar 11</div></td>--%>
-              <%--</tr>--%>
-            <%--</table>--%>
-          <%--</div>--%>
-        <%--</div>--%>
-      <%--</div>--%>
-
-      <%--分页--%>
-      <%--<div id="page">--%>
-        <%--1.......5--%>
-      <%--</div>--%>
     </div>
+  </div>
+  <div id="pageSeparator">
+    Prev
+    <c:forEach var="i" begin="1" end="${totalPages}" >
+    <a href="${pageContext.request.contextPath}/page?pageNumber=${i}">
+      ${i}
+    </a>
+    </c:forEach>
+    Next
   </div>
 
 ${showInfo}
