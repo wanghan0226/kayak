@@ -1,8 +1,10 @@
 # Intellij
-.idea/
+#Windows ignore \ and linux ignore /
+.idea
 *.iml
 *.iws
-out/
+out
+
 
 # Windows image file caches
 Thumbs.db

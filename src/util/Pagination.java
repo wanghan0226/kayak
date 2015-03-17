@@ -3,7 +3,7 @@ package util;
 import java.util.*;
 
 /**
- * Created by pianobean on 3/13/15.
+ * @author pianobean
  */
 public class Pagination {
     private static final int SIZE = 10;
