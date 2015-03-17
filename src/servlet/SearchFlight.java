@@ -75,10 +75,11 @@ public class SearchFlight extends HttpServlet {
         Date nextDay = cal.getTime();
         Document nextDom = service.getArriveDom(arriveCode, nextDay);
 
+
         //获取一次转机的匹配集合
-        List flightsOne = oneStop.validOneStop(seat == "First" ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, deDom, arDom, nextDom);
+        List flightsOne = oneStop.validOneStop(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, deDom, arDom, nextDom);
         //获取直达航班
-        List flightsNon = nonStop.findNonStopFlights(seat == "First" ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,arriveCode,deDom);
+        List flightsNon = nonStop.findNonStopFlights(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,arriveCode,deDom);
         /*
             返程航班
          */
@@ -94,8 +95,8 @@ public class SearchFlight extends HttpServlet {
             Date returnNext = cal.getTime();
             Document returnNextDom = service.getArriveDom(departCode, returnNext);
 
-            List reFlightsOne = oneStop.validOneStop(seat == "First" ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,returnDeDom,returnArDom,returnNextDom);
-            List reFlightsNon = nonStop.findNonStopFlights(seat == "First" ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,departCode,returnDeDom);
+            List reFlightsOne = oneStop.validOneStop(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,returnDeDom,returnArDom,returnNextDom);
+            List reFlightsNon = nonStop.findNonStopFlights(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,departCode,returnDeDom);
 
             //将出发航班与返回航班进行匹配
             PairFlights pairUp = ServiceFactory.getInstance().getPairFlights();

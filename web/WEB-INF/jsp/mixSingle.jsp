@@ -1,4 +1,62 @@
-<c:forEach var="connect" items="${map.value}">
+<%--迭代每一个直飞的航线--%>
+<c:forEach items="${map.value}" begin="0" end="${map.key-1}" var="connect">
+  <div class="cell">
+    <%--左半部分--%>
+    <div class="left">
+      <div class="price">
+        <fmt:setLocale value="en_US"/>
+        <fmt:formatNumber type="currency" value="${seat=='First'? connect.firstPrice : connect.coachPrice}"/>
+      </div>
+      <div class="select">
+        <input type="button" value="Select"/>
+      </div>
+    </div>
+    <%--右半部分--%>
+    <div class="right">
+      <table class="flightDetail">
+        <tr>
+          <td>${connect.departCode} <b><fmt:formatDate value="${connect.departTime}" pattern="HH:mm"/></b></td>
+          <td>${connect.arriveCode} <b><fmt:formatDate value="${connect.arriveTime}" pattern="HH:mm"/></b></td>
+          <td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${connect.flightTime/60}"/>h <fmt:formatNumber value="${connect.flightTime%60}" pattern="#" type="number"/>m </td>
+          <td class="minorInfo">non stop</td>
+        </tr>
+        <tr>
+          <td colspan="3"><button onclick="showDetail(this)" class="detailLink">Show Detail</button></td>
+        </tr>
+      </table>
+    </div>
+    <%--飞行转机细节--%>
+    <div class="transferDetail">
+      <%--出发航程--%>
+      <div class="departDetail">
+        <table>
+          <tr>
+            <td colspan="5"><div class="subTitle">Depart :&nbsp;${airNames[connect.departCode]}(${connect.departCode})</div></td>
+          </tr>
+          <tr>
+            <td>
+              <div class="floatTitle">Flight ${connect.number}</div>
+            </td>
+            <td>
+              <div class="floatTitle">${connect.departCode} <b><fmt:formatDate value="${connect.departTime}" pattern="HH:mm"/> </b></div>
+              <div class="minorInfo"><fmt:formatDate value="${connect.departTime}" pattern="EEEEEE"/></div>
+            </td>
+            <td>
+              <div class="floatTitle">${connect.arriveCode} <b><fmt:formatDate value="${connect.arriveTime}" pattern="HH:mm"/></b></div>
+              <div class="minorInfo"><fmt:formatDate value="${connect.arriveTime}" pattern="EEEEEE"/></div>
+            </td>
+            <td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${connect.flightTime/60}"/>h <fmt:formatNumber value="${connect.flightTime%60}" pattern="#" type="number"/>m </td>
+          </tr>
+          <tr>
+            <td colspan="5"><div class="subTitle">Arrive : ${airNames[connect.arriveCode]}(${connect.arriveCode})</div></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</c:forEach>
+<%--迭代每一个转机的航线--%>
+<c:forEach items="${map.value}" begin="${map.key}" end="9" var="connect">
   <%--单元格格式--%>
   <div class="cell">
     <%--左半部分--%>

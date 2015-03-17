@@ -43,6 +43,7 @@ public class PageSeperator extends HttpServlet {
             List pairNon = (List) request.getAttribute("pairNon");
             showInfo = Pagination.distinguish(pairNon, pairOne, pageNumber);
         }
+        System.out.println(showInfo);
         request.setAttribute("showInfo", showInfo);
         request.getRequestDispatcher("/searchResult.jsp").forward(request,response);
     }

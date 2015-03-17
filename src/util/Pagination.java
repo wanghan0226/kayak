@@ -91,13 +91,7 @@ public class Pagination {
         return map;
     }
     public static void main(String[] args) {
-        ArrayList a = new ArrayList();
-
-        ArrayList b = new ArrayList();
-        String s = "fdjksf";
-        if(s instanceof String){
-            System.out.println("good");
-        }
+        System.out.println(String.class.getName());
 
     }
 }
