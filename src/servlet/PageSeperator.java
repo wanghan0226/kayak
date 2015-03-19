@@ -30,11 +30,15 @@ public class PageSeperator extends HttpServlet {
          //获取类型 往返 或者 单程
         String type = (String) session.getAttribute("type");
         String pageNumberStr = request.getParameter("pageNumber");
+
         int pageNumber = 1;
         if(pageNumberStr!=null && !pageNumberStr.isEmpty())
         {
             pageNumber = Integer.parseInt(pageNumberStr);
         }
+        //将当前页存入session
+        session.setAttribute("currentPage",pageNumber);
+
         Map showInfo = null;
         if(type.equals("oneWay")){//如果是单程
             request.setAttribute("trip","single");

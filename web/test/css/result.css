@@ -65,8 +65,8 @@
 }
 
 .cell{
-    width: 884px;
-    /*height: 200px;*/
+    /*border: 1px solid black;*/
+    width: 902px;
     /*background: coral;*/
     border-bottom: 1px solid black;
 }
@@ -156,4 +156,8 @@
     font-size: 15px;
     color: #574f32;
     font-family: 'Arial', sans-serif;
+}
+
+#pageSeparator{
+    text-align: center;
 }
