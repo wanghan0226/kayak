@@ -1,7 +1,6 @@
 package serviceImpl;
 
-import beans.Flight;
-import beans.SearchKey;
+import beans.*;
 import dao.AirportDao;
 import dao.ConnectDao;
 import factory.DaoFactory;
@@ -14,13 +13,14 @@ import org.dom4j.io.SAXReader;
 import service.OneStopService;
 import util.ConstantVariable;
 import util.QueryFactory;
+import util.SortTicket;
 import util.XmlConnection;
 
 import java.net.URL;
 import java.util.*;
 
 /**
- * @author pianobean on 3/11/15.
+ * @author pianobean
  */
 public class OneStopServiceImpl implements OneStopService{
     private static Document airports;
@@ -34,10 +34,32 @@ public class OneStopServiceImpl implements OneStopService{
             throw new RuntimeException(e);
         }
     }
-    private static List<List<String>> findMatchFlights(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
+
+    static class flightsWithInfo{
+        List<String> flights;
+        float price;
+        long time;
+
+        flightsWithInfo(List<String> flights, float price, long time){
+            this.flights = flights;
+            this.price = price;
+            this.time = time;
+        }
+
+        float getPrice(){
+            return price;
+        }
+
+        long getTime() { return time; }
+
+        List<String> getFlights(){
+            return flights;
+        }
+    }
+    private static List<flightsWithInfo> findMatchFlights(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
         boolean flag = true;
         if(seatType== ConstantVariable.FIRST) flag=false;
-        List<List<String>> list = new ArrayList<List<String>>();
+        List<flightsWithInfo> list = new ArrayList<flightsWithInfo>();
         ConnectDao connect = DaoFactory.getInstance().getConnectFlights();
         List<SearchKey> departKeys = connect.airportSearchInfo(depart, ConstantVariable.DEPART);
         List<SearchKey> arriveKeys = connect.airportSearchInfo(arrive, ConstantVariable.ARRIVE);
@@ -46,15 +68,20 @@ public class OneStopServiceImpl implements OneStopService{
             for(SearchKey key: departKeys){
                 String code = key.getAirportCode();
                 String number = key.getNumber();
+                float priceOne = key.getCoachPrice();
                 Date date = key.getDate();
                 int coach = key.getCoachSeat();
+                long timeStart = key.getDepartureTime();
                 for(int i=0; i<arriveKeys.size(); i++){
                     SearchKey arrday = arriveKeys.get(i);
+                    float priceTwo = arrday.getCoachPrice();
+                    long timeEnd = key.getArrivalTime();
                     if(code.equals(arrday.getAirportCode()) && date.compareTo(arrday.getDate())<0 && coach>=numOfPassenger && arrday.getCoachSeat()>=numOfPassenger){
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-                        list.add(pair);
+                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo, timeStart + timeEnd);
+                        list.add(singleRes);
                     }
                 }
             }
@@ -63,13 +90,18 @@ public class OneStopServiceImpl implements OneStopService{
                 String number = key.getNumber();
                 Date date = key.getDate();
                 int coach = key.getCoachSeat();
+                float priceOne = key.getCoachPrice();
+                long timeStart = key.getDepartureTime();
                 for(int i=0; i<nextDayKeys.size(); i++){
                     SearchKey arrday = nextDayKeys.get(i);
+                    float priceTwo = arrday.getCoachPrice();
+                    long timeEnd = key.getArrivalTime();
                     if(code.equals(arrday.getAirportCode()) && date.compareTo(arrday.getDate())<0 && coach>=numOfPassenger && arrday.getCoachSeat()>=numOfPassenger){
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-                        list.add(pair);
+                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo, timeStart + timeEnd);
+                        list.add(singleRes);
                     }
                 }
             }
@@ -79,13 +111,18 @@ public class OneStopServiceImpl implements OneStopService{
                 String number = key.getNumber();
                 Date date = key.getDate();
                 int first = key.getFirstSeat();
+                float priceOne = key.getFirstPrice();
+                long timeStart = key.getDepartureTime();
                 for(int i=0; i<arriveKeys.size(); i++){
                     SearchKey arrday = arriveKeys.get(i);
+                    float priceTwo = arrday.getFirstPrice();
+                    long timeEnd = key.getArrivalTime();
                     if(code.equals(arrday.getAirportCode()) && date.compareTo(arrday.getDate())<0 && first>=numOfPassenger && arrday.getFirstSeat()>=numOfPassenger){
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-                        list.add(pair);
+                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo, timeStart + timeEnd);
+                        list.add(singleRes);
                     }
                 }
             }
@@ -94,26 +131,33 @@ public class OneStopServiceImpl implements OneStopService{
                 String number = key.getNumber();
                 Date date = key.getDate();
                 int first = key.getFirstSeat();
+                float priceOne = key.getFirstPrice();
+                long timeStart = key.getDepartureTime();
                 for(int i=0; i<nextDayKeys.size(); i++){
                     SearchKey arrday = nextDayKeys.get(i);
+                    float priceTwo = arrday.getFirstPrice();
+                    long timeEnd = key.getArrivalTime();
                     if(code.equals(arrday.getAirportCode()) && date.compareTo(arrday.getDate())<0 && first>=numOfPassenger && arrday.getFirstSeat()>=numOfPassenger){
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-                        list.add(pair);
+                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo, timeStart + timeEnd);
+                        list.add(singleRes);
                     }
                 }
             }
         }
         return list;
     }
-    private static List<List<Flight>> findValidOneStopFlights(List<List<String>> choices, Document deDoc, Document arDoc, Document arNextDoc){
-            List<List<Flight>> list = new ArrayList<List<Flight>>();
-        Iterator it = choices.iterator();
+    private static List<Ticket> findValidOneStopFlights(List<flightsWithInfo> choices, Document deDoc, Document arDoc, Document arNextDoc){
+        List<Ticket> result = new ArrayList<Ticket>();
+//        Iterator it = choices.iterator();
         AirportDao functions = DaoFactory.getInstance().getAirportFunctions();
-        while (it.hasNext()){
-            List<String> pair = (List<String>) it.next();
-            String deNum = pair.get(0);
+        for (flightsWithInfo choice: choices){
+                List<String> pair = choice.getFlights();
+                float price = choice.getPrice();
+                long time = choice.getTime();
+                String deNum = pair.get(0);
             String arNum = pair.get(1);
             Flight departFlight = functions.findFlightByNumber(deNum, deDoc);
             Flight arriveFlight = null;
@@ -133,16 +177,21 @@ public class OneStopServiceImpl implements OneStopService{
                 List<Flight> validPair = new ArrayList<Flight>();
                 validPair.add(departFlight);
                 validPair.add(arriveFlight);
-                list.add(validPair);
+                TicketContent content = new TicketContent(STOP_NUM.ONE_STOP, validPair);
+                List<TicketContent> contents = new ArrayList<TicketContent>();
+                contents.add(content);
+                Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE,contents,price,time);
+                result.add(ticket);
             }
         }
-        return list;
+
+        return result;
     }
 
     @Override
-    public List<List<Flight>> validOneStop(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
+    public List<Ticket> validOneStop(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
         List raw = findMatchFlights(seatType,numOfPassenger,depart,arrive,arrNextDay);
-        List<List<Flight>> list = findValidOneStopFlights(raw,depart,arrive,arrNextDay);
+        List<Ticket> list = findValidOneStopFlights(raw,depart,arrive,arrNextDay);
         return list;
     }
 
@@ -188,7 +237,22 @@ public class OneStopServiceImpl implements OneStopService{
             e.printStackTrace();
         }
         OneStopService stopService = ServiceFactory.getInstance().getOneStopService();
-        List list = stopService.validOneStop(ConstantVariable.COACH, 10, departdoc,arrivedoc,arrivedoc1);
-        System.out.println(list);
+        List<Ticket> list = stopService.validOneStop(ConstantVariable.COACH, 10, departdoc,arrivedoc,arrivedoc1);
+        for(int i = 0; i < list.size(); i++){
+            Ticket ticket = list.get(i);
+            System.out.println(ticket.getPrice());
+            System.out.println(ticket.getFlightType());
+            System.out.println(ticket.getTicketContents().get(0).getFligts());
+        }
+
+        SortTicket.sortTicketByPriceAscending(list);
+        System.out.println("------------------华丽分割线------------------------");
+        for(int i = 0; i < list.size(); i++){
+            Ticket ticket = list.get(i);
+            System.out.println(ticket.getPrice());
+            System.out.println(ticket.getFlightType());
+            System.out.println(ticket.getTicketContents().get(0).getFligts());
+            System.out.println(ticket.getTimeInterval());
+        }
     }
 }

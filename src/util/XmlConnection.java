@@ -1,5 +1,7 @@
 package util;
 
+import beans.STOP_NUM;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -43,6 +45,8 @@ public class XmlConnection {
         }catch (Exception e){
             e.printStackTrace();
         }
+
+
         return result.toString();
     }
 

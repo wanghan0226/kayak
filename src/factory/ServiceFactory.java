@@ -7,7 +7,7 @@ import service.PairFlights;
 import serviceImpl.AirportServiceImpl;
 import serviceImpl.NonStopServiceImpl;
 import serviceImpl.OneStopServiceImpl;
-import serviceImpl.PairFlightsImpl;
+//import serviceImpl.PairFlightsImpl;
 
 /**
  *@author pianobean on 3/12/15.
@@ -27,7 +27,7 @@ public class ServiceFactory {
     public NonStopService getNonStopService(){
         return new NonStopServiceImpl();
     }
-    public PairFlights getPairFlights(){
-        return new PairFlightsImpl();
-    }
+//    public PairFlights getPairFlights(){
+//        return new PairFlightsImpl();
+//    }
 }

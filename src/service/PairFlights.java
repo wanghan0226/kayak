@@ -1,13 +1,16 @@
 package service;
 
 import beans.Flight;
+import beans.Ticket;
+import beans.TicketContent;
 
 import java.util.List;
 
 /**
- * Created by pianobean on 3/13/15.
+ * @author pianobean on 3/13/15.
  */
 public interface PairFlights {
-    public List<List<List<Flight>>> pairOneStop(List<List<Flight>> goFlights, List<List<Flight>> comeFlights);
-    public List<List<Flight>> pairNonStop(List<Flight> goFlights, List<Flight> comeFlights);
+//    public List<Ticket> pairOneStop(List<Ticket> goFlights, List<Ticket> comeFlights);
+//    public List<Ticket> pairNonStop(List<Ticket> goFlights, List<Ticket> comeFlights);
+    public List<Ticket> pairFlight(List<Ticket> goFlights, List<Ticket> comeFlights);
 }

@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Created by pianobean on 3/15/15.
+ * @author pianobean
  */
 public class AirportNames {
     public static Map<String, String> airportNames = new HashMap<String, String>();

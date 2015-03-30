@@ -1,6 +1,6 @@
 package service;
 
-import beans.Flight;
+import beans.Ticket;
 import org.dom4j.Document;
 
 import java.util.List;
@@ -9,5 +9,5 @@ import java.util.List;
  * @author pianobean on 3/12/15.
  */
 public interface OneStopService {
-    public List<List<Flight>> validOneStop(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay);
+    public List<Ticket> validOneStop(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay);
 }

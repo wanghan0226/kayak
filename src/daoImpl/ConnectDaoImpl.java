@@ -6,9 +6,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import util.ConstantVariable;
-import util.QueryFactory;
-import util.XmlConnection;
+import util.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,7 +25,7 @@ public class ConnectDaoImpl implements ConnectDao {
             String num = element.attribute("Number").getValue();
             String airportCode = element.element(airportType.equals(ConstantVariable.DEPART)?ConstantVariable.ARRIVE:ConstantVariable.DEPART).element("Code").getText();
             String arriveTime = element.element(airportType.equals(ConstantVariable.DEPART)?ConstantVariable.ARRIVE:ConstantVariable.DEPART).element("Time").getText();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMMM dd HH:mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm zzz");
             Date date = null;
             try {
                 date = sdf.parse(arriveTime);
@@ -36,11 +34,20 @@ public class ConnectDaoImpl implements ConnectDao {
             }
             int firstLeft = Integer.parseInt(element.element("Seating").element("FirstClass").getText());
             int coachLeft = Integer.parseInt(element.element("Seating").element("Coach").getText());
+            float firstPrice = PriceParser.floatParser(element.element("Seating").element("FirstClass").attributeValue("Price").substring(1));
+            float coachPrice = PriceParser.floatParser(element.element("Seating").element("Coach").attributeValue("Price").substring(1));
+            Date departureDate = DateFormater.formatTime(element.element("Departure").element("Time").getText());
+            Date arrivalDate = DateFormater.formatTime(element.element("Arrival").element("Time").getText());
+//            long timeInterval = arrivalDate.getTime() - departureDate.getTime();
             key.setAirportCode(airportCode);
             key.setDate(date);
             key.setFirstSeat(firstLeft);
             key.setCoachSeat(coachLeft);
             key.setNumber(num);
+            key.setFirstPrice(firstPrice);
+            key.setCoachPrice(coachPrice);
+            key.setDepartureTime(departureDate.getTime());
+            key.setArrivalTime(arrivalDate.getTime());
             list.add(key);
         }
 

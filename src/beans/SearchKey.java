@@ -11,6 +11,18 @@ public class SearchKey {
     private Date date;
     private int firstSeat;
     private int coachSeat;
+    private float firstPrice;
+    private float coachPrice;
+    private long departureTime;
+    private long arrivalTime;
+
+    public float getFirstPrice(){return firstPrice;}
+
+    public void setFirstPrice(float price){this.firstPrice = price;}
+
+    public float getCoachPrice(){return  coachPrice;}
+
+    public void setCoachPrice(float price){this.coachPrice = price;}
 
     public String getNumber() {
         return number;
@@ -50,4 +62,12 @@ public class SearchKey {
     public void setCoachSeat(int coachSeat) {
         this.coachSeat = coachSeat;
     }
+
+    public void setDepartureTime(long departureTime){ this.departureTime = departureTime; }
+
+    public long getDepartureTime(){ return departureTime; }
+
+    public void setArrivalTime(long arrivalTime){ this.arrivalTime = arrivalTime; }
+
+    public long getArrivalTime(){ return arrivalTime; }
 }

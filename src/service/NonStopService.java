@@ -1,6 +1,7 @@
 package service;
 
-import beans.Flight;
+
+import beans.Ticket;
 import org.dom4j.Document;
 
 import java.util.List;
@@ -9,5 +10,5 @@ import java.util.List;
  * @author pianobean.
  */
 public interface NonStopService {
-    public List<Flight> findNonStopFlights(String seatType, int numOfPassenger, String arCode, Document document);
+    public List<Ticket> findNonStopFlights(String seatType, int numOfPassenger, String arCode, Document document);
 }
