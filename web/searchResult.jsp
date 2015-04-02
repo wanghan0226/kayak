@@ -49,7 +49,7 @@
           <tr>
             <td>
               Sort by:
-              <select id="sortBy">
+              <select name="sorting" id="sortBy">
                 <option>price(low to high)</option>
                 <option>price(high to low)</option>
                 <option>airline(A to Z)</option>
@@ -62,7 +62,7 @@
               <input type="checkbox" name="nonStop" value="0" checked>nonstop<br>
               <input type="checkbox" name="multiStop" value="1" checked>multi-stop<br>
             </td>
-          </tr>
+          </tr>="
         </table>
       </div>
     </div>

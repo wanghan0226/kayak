@@ -33,9 +33,9 @@ public class NonStopServiceImpl implements NonStopService{
                     Element flightElement = element.getParent().getParent();
                     int coachLeft = Integer.parseInt(flightElement.element("Seating").element("Coach").getText());
                     float price = PriceParser.floatParser(flightElement.element("Seating").element("Coach").attributeValue("Price").substring(1));
-                    Date departureDate = DateFormater.formatTime(flightElement.element("Departure").element("Time").getText());
-                    Date arrivalDate = DateFormater.formatTime(flightElement.element("Arrival").element("Time").getText());
-                    long timeInterval = arrivalDate.getTime() - departureDate.getTime();
+                    Date departureTime = DateFormater.formatTime(flightElement.element("Departure").element("Time").getText());
+                    Date arrivalTime = DateFormater.formatTime(flightElement.element("Arrival").element("Time").getText());
+                    long timeInterval = arrivalTime.getTime() - departureTime.getTime();
                     //判断经济舱是否有足够的位置
                     if(coachLeft>=numOfPassenger){
                         String num = flightElement.attribute("Number").getValue();
@@ -43,6 +43,7 @@ public class NonStopServiceImpl implements NonStopService{
                         TicketContent content = new TicketContent(STOP_NUM.NON_STOP, new LinkedList<Flight>());
                         List<TicketContent> list = new ArrayList<TicketContent>();
                         list.add(content);
+//                        Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE, list, price, departureTime.getTime(), arrivalTime.getTime(), timeInterval);
                         Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE, list, price, timeInterval);
                         result.add(ticket);
                     }
@@ -56,9 +57,9 @@ public class NonStopServiceImpl implements NonStopService{
                     Element flightElement = element.getParent().getParent();
                     int firstLeft = Integer.parseInt(flightElement.element("Seating").element("FirstClass").getText());
                     float price = PriceParser.floatParser(flightElement.element("Seating").element("FirstClass").attributeValue("Price").substring(1));
-                    Date departureDate = DateFormater.formatTime(flightElement.element("Departure").element("Time").getText());
-                    Date arrivalDate = DateFormater.formatTime(flightElement.element("Arrival").element("Time").getText());
-                    long timeInterval = arrivalDate.getTime() - departureDate.getTime();
+                    Date departureTime = DateFormater.formatTime(flightElement.element("Departure").element("Time").getText());
+                    Date arrivalTime = DateFormater.formatTime(flightElement.element("Arrival").element("Time").getText());
+                    long timeInterval = arrivalTime.getTime() - departureTime.getTime();
                     //判断经济舱是否有足够的位置
                     if(firstLeft>=numOfPassenger){
                         String num = flightElement.attribute("Number").getValue();
@@ -68,6 +69,7 @@ public class NonStopServiceImpl implements NonStopService{
                         TicketContent content = new TicketContent(STOP_NUM.NON_STOP,flightList);
                         List<TicketContent> list = new ArrayList<TicketContent>();
                         list.add(content);
+//                        Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE, list, price, departureTime.getTime(), arrivalTime.getTime(), timeInterval);
                         Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE, list, price, timeInterval);
                         result.add(ticket);
                     }
@@ -95,7 +97,7 @@ public class NonStopServiceImpl implements NonStopService{
             System.out.println(ticket.getPrice());
             System.out.println(ticket.getFlightType());
             System.out.println(ticket.getTicketContents().get(0).getFligts());
-            System.out.println(ticket.getTimeInterval());
+            System.out.println(ticket.getDuration());
 //            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 //
 //            Date time = new Date(ticket.getTimeInterval());

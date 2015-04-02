@@ -38,19 +38,27 @@ public class OneStopServiceImpl implements OneStopService{
     static class flightsWithInfo{
         List<String> flights;
         float price;
-        long time;
+//        long depatureTime;
+//        long arrivalTime;
+        long duration;
 
-        flightsWithInfo(List<String> flights, float price, long time){
+        flightsWithInfo(List<String> flights, float price, long duration){
             this.flights = flights;
             this.price = price;
-            this.time = time;
+//            this.depatureTime = depatureTime;
+//            this.arrivalTime = arrivalTime;
+            this.duration = duration;
         }
 
         float getPrice(){
             return price;
         }
 
-        long getTime() { return time; }
+        long getDuration() { return duration; }
+
+//        long getDepatureTime() { return depatureTime; }
+//
+//        long getArrivalTime() { return  arrivalTime; }
 
         List<String> getFlights(){
             return flights;
@@ -80,7 +88,8 @@ public class OneStopServiceImpl implements OneStopService{
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo, timeStart + timeEnd);
+                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart + timeEnd);
+//                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart, timeEnd, timeStart + timeEnd);
                         list.add(singleRes);
                     }
                 }
@@ -100,7 +109,8 @@ public class OneStopServiceImpl implements OneStopService{
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo, timeStart + timeEnd);
+//                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart, timeEnd, timeStart + timeEnd);
+                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,timeStart + timeEnd);
                         list.add(singleRes);
                     }
                 }
@@ -121,7 +131,8 @@ public class OneStopServiceImpl implements OneStopService{
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo, timeStart + timeEnd);
+//                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart, timeEnd, timeStart + timeEnd);
+                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,timeStart + timeEnd);
                         list.add(singleRes);
                     }
                 }
@@ -141,7 +152,8 @@ public class OneStopServiceImpl implements OneStopService{
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo, timeStart + timeEnd);
+//                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart, timeEnd, timeStart + timeEnd);
+                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,timeStart + timeEnd);
                         list.add(singleRes);
                     }
                 }
@@ -156,7 +168,9 @@ public class OneStopServiceImpl implements OneStopService{
         for (flightsWithInfo choice: choices){
                 List<String> pair = choice.getFlights();
                 float price = choice.getPrice();
-                long time = choice.getTime();
+                long time = choice.getDuration();
+//                long depatureTime = choice.getDepatureTime();
+//                long arrivalTime = choice.getArrivalTime();
                 String deNum = pair.get(0);
             String arNum = pair.get(1);
             Flight departFlight = functions.findFlightByNumber(deNum, deDoc);
@@ -180,6 +194,7 @@ public class OneStopServiceImpl implements OneStopService{
                 TicketContent content = new TicketContent(STOP_NUM.ONE_STOP, validPair);
                 List<TicketContent> contents = new ArrayList<TicketContent>();
                 contents.add(content);
+//                Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE,contents,price,depatureTime, arrivalTime, time);
                 Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE,contents,price,time);
                 result.add(ticket);
             }
@@ -252,7 +267,7 @@ public class OneStopServiceImpl implements OneStopService{
             System.out.println(ticket.getPrice());
             System.out.println(ticket.getFlightType());
             System.out.println(ticket.getTicketContents().get(0).getFligts());
-            System.out.println(ticket.getTimeInterval());
+            System.out.println(ticket.getDuration());
         }
     }
 }

@@ -27,15 +27,18 @@ public class PairFlightsImpl implements PairFlights{
        for(Ticket go : goFlights){
            List<TicketContent> contentOne = go.getTicketContents();
            float goPrice = go.getPrice();
-           long goTime = go.getTimeInterval();
+           long goTime = go.getDuration();
+//           long goDepatureTime = go.getDepartureTime();
            for(Ticket come: comeFlights){
                List<TicketContent> contentTwo = come.getTicketContents();
                List<TicketContent> contents = new ArrayList<TicketContent>();
                contents.addAll(contentOne);
                contents.addAll(contentTwo);
                float price = goPrice + come.getPrice();
-               long comeTime = come.getTimeInterval();
+               long comeTime = come.getDuration();
                long time = goTime + comeTime;
+//               long comeArrivalTime = come.getArrivalTime();
+//               Ticket res = new Ticket(FLIGHT_TYPE.ROUND,contents,price, goDepatureTime,comeArrivalTime,time);
                Ticket res = new Ticket(FLIGHT_TYPE.ROUND,contents,price, time);
                list.add(res);
            }
@@ -87,19 +90,21 @@ public class PairFlightsImpl implements PairFlights{
             Ticket ticket = list3.get(i);
             System.out.println(ticket.getPrice());
             System.out.println(ticket.getFlightType());
-            System.out.println("go Flight ticket info are :" + ticket.getTicketContents().get(0).getFligts());
-            System.out.println("come Flight ticket info are :" + ticket.getTicketContents().get(1).getFligts());
+//            System.out.println("go Flight ticket info are :" + ticket.getTicketContents().get(0).getFligts() + " " + ticket.getArrivalTime());
+//            System.out.println("come Flight ticket info are :" + ticket.getTicketContents().get(1).getFligts() + " " + ticket.getArrivalTime());
         }
 
-        SortTicket.sortTicketByDurationAscending(list3);
+//        SortTicket.sortTicketByDurationAscending(list3);
+//        SortTicket.sortTicketByPriceAscending(list3);
+        SortTicket.sortTicketByPriceDescending(list3);
         System.out.println("------------------华丽分割线------------------------");
         for(int i = 0; i < list3.size(); i++){
             Ticket ticket = list3.get(i);
             System.out.println(ticket.getPrice());
             System.out.println(ticket.getFlightType());
-            System.out.println(ticket.getTimeInterval());
-            System.out.println("go Flight ticket info are :" + ticket.getTicketContents().get(0).getFligts());
-            System.out.println("come Flight ticket info are :" + ticket.getTicketContents().get(1).getFligts());
+            System.out.println(ticket.getDuration());
+//            System.out.println("go Flight ticket info are :" + ticket.getTicketContents().get(0).getFligts() + " " + ticket.getArrivalTime());
+//            System.out.println("come Flight ticket info are :" + ticket.getTicketContents().get(1).getFligts()+ " " + ticket.getArrivalTime());
         }
     }
 }

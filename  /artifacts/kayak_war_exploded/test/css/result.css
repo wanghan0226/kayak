@@ -1,0 +1,163 @@
+
+#main{
+    margin: 0px 300px;
+    /*background: #3775ef;*/
+    border: 1px solid black;
+}
+#conditions{
+    /*background: #95ff70;*/
+    /*height: 180px;*/
+    /*border: 1px solid black;*/
+}
+.rows{
+    padding: 0px;
+}
+#changeCon{
+    /*background: cadetblue;*/
+    height: 100px;
+    /*border: 1px solid black;*/
+}
+#sorting{
+    /*background: blueviolet;*/
+    height: 50px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+#originalInfo{
+    /*border: 1px solid black;*/
+    width: 883px;
+    height: 100px;
+    margin-left: 15px;
+    margin-top: 10px;
+    padding-left: 15px;
+    font-family: 'Arial', sans-serif;
+}
+#tripTitle{
+    font-size: 150%;
+}
+#changeBtn{
+    width: 70px;
+    height: 30px;
+    background: #e46c15;
+    border: none;
+    cursor: hand;
+    color: #ffffff;
+}
+#originalInfo td{
+    text-align: left;
+    /*border-left: 1px solid #9dc1ff;*/
+}
+
+#lookUpCondition{
+    /*border: 1px solid black;*/
+    width: 850px;
+}
+#lookUpCondition td{
+    text-align: center;
+}
+#sortBy{
+    padding:5px;
+    background:transparent;
+    width:250px;
+    font-size: 14px;
+    /*border:none;*/
+    height:30px;
+}
+
+.cell{
+    /*border: 1px solid black;*/
+    width: 902px;
+    /*background: coral;*/
+    border-bottom: 1px solid black;
+}
+.left{
+    width: 200px;
+    height: 160px;
+    /*background: #d9dc8a;*/
+    /*border: 1px solid black;*/
+    float: left;
+}
+.right{
+    width: 882px;
+    height: 160px;
+    /*background: #b99a08;*/
+    /*border: 1px solid black;*/
+}
+.price{
+    height: 80px;
+    /*background: #9dc1ff;*/
+    text-align: center;
+    line-height: 80px;
+    font-size: 22px;
+}
+.select{
+    height: 80px;
+    /*background: #ff1016;*/
+}
+.select input{
+    margin-left: 47px;
+    margin-top: 28px;
+    font-size: 14px;
+    width: 100px;
+    height: 30px;
+    background: #e46c15;
+    border: none;
+    cursor: hand;
+    color: #ffffff;
+}
+.detailLink{
+    color: #574f32;
+    text-decoration: none;
+    border: none;
+    background:transparent;
+}
+.detailLink:hover { text-decoration:underline;color: red}
+.flightDetail{
+
+    width: 681px;
+    height: 160px;
+}
+.flightDetail td{
+    text-align: center;
+    /*border: 1px solid black;*/
+    font-family: 'Arial', sans-serif;
+}
+.transferDetail{
+    display: none;
+}
+
+.departDetail{
+    width: 884px;
+    /*border: 1px solid black;*/
+    /*margin-left: 20px;*/
+    margin-bottom: 10px;
+    margin-left: 8px;
+}
+.departDetail table{
+    width: 884px;
+}
+
+.departDetail table td{
+    text-align: center;
+    /*border: 1px solid black;*/
+    padding-top: 5px;
+    padding-bottom: 5px;
+    /*margin: 0px 20px;*/
+    font-family: 'Arial', sans-serif;
+}
+
+.subTitle{
+    margin: 0px 100px;
+    /*border: 1px solid black;*/
+    background: #e1e1e1;
+}
+
+.minorInfo{
+    font-size: 15px;
+    color: #574f32;
+    font-family: 'Arial', sans-serif;
+}
+
+#pageSeparator{
+    text-align: center;
+}

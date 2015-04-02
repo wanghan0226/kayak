@@ -18,10 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author  pianobean on 3/2/15.
@@ -112,24 +109,34 @@ public class SearchFlight extends HttpServlet {
             Date returnNext = cal.getTime();
             Document returnNextDom = service.getArriveDom(departCode, returnNext);
 
-            List reFlightsOne = oneStop.validOneStop(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,returnDeDom,returnArDom,returnNextDom);
-            List reFlightsNon = nonStop.findNonStopFlights(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,departCode,returnDeDom);
+            List reFlightsOne = oneStop.validOneStop(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, returnDeDom, returnArDom, returnNextDom);
+            List reFlightsNon = nonStop.findNonStopFlights(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, departCode, returnDeDom);
 
-            //将出发航班与返回航班进行匹配
-//            PairFlights pairUp = ServiceFactory.getInstance().getPairFlights();
+//            将出发航班与返回航班进行匹配
+            PairFlights pairUp = ServiceFactory.getInstance().getPairFlights();
 //            List pairOne = pairUp.pairOneStop(flightsOne, reFlightsOne);
 //            List pairNon = pairUp.pairNonStop(flightsNon,reFlightsNon);
 
+
+            List pairNon = pairUp.pairFlight(flightsNon, reFlightsNon);
+            List pairAll = new ArrayList();
+            pairAll.addAll(pairUp.pairFlight(flightsNon,reFlightsOne));
+            pairAll.addAll(pairUp.pairFlight(flightsOne,reFlightsNon));
+            pairAll.add(pairUp.pairFlight(flightsOne,reFlightsOne));
+            pairAll.add(pairNon);
+
+
             //将搜索总数存入session以便分页
-//            int totalItems = pairOne.size()+pairNon.size();
-//            System.out.println(totalItems);
-//            int pageNumbers = (int) Math.ceil((double)totalItems/10);
-//            System.out.println(pageNumbers);
-//            session.setAttribute("totalPages", pageNumbers);
+            int totalItems = pairNon.size()+pairAll.size();
+            System.out.println(totalItems);
+            int pageNumbers = (int) Math.ceil((double)totalItems/10);
+            System.out.println(pageNumbers);
+            session.setAttribute("totalPages", pageNumbers);
 
             //将搜索结果传给下一层
-//            session.setAttribute("pairOne",pairOne);
-//            session.setAttribute("pairNon",pairNon);
+            session.setAttribute("pairOne",pairAll);
+            session.setAttribute("pairNon",pairNon);
+
         }else {
             //将搜索总数存入session以便分页
             int totalItems = flightsOne.size()+flightsNon.size();
@@ -141,6 +148,8 @@ public class SearchFlight extends HttpServlet {
             //将搜索结果传给下一层
             session.setAttribute("goOneStop",flightsOne);
             session.setAttribute("goNonStop",flightsNon);
+
+            //to pass the info of return flight to PageSeperator
         }
         //将trip存入session
         session.setAttribute("tripInfo", trip);
