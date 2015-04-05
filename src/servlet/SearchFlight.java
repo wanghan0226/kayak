@@ -1,5 +1,6 @@
 package servlet;
 
+import beans.Ticket;
 import beans.Trip;
 import factory.ServiceFactory;
 import org.dom4j.Document;
@@ -86,9 +87,9 @@ public class SearchFlight extends HttpServlet {
 
 
         //获取一次转机的匹配集合
-        List flightsOne = oneStop.validOneStop(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, deDom, arDom, nextDom);
+        List<Ticket> flightsOne = oneStop.validOneStop(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, deDom, arDom, nextDom);
         //获取直达航班
-        List flightsNon = nonStop.findNonStopFlights(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,arriveCode,deDom);
+        List<Ticket> flightsNon = nonStop.findNonStopFlights(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,arriveCode,deDom);
         /*
             返程航班
          */
@@ -118,12 +119,12 @@ public class SearchFlight extends HttpServlet {
 //            List pairNon = pairUp.pairNonStop(flightsNon,reFlightsNon);
 
 
-            List pairNon = pairUp.pairFlight(flightsNon, reFlightsNon);
-            List pairAll = new ArrayList();
+            List<Ticket> pairNon = pairUp.pairFlight(flightsNon, reFlightsNon);
+            List<Ticket> pairAll = new ArrayList<Ticket>();
             pairAll.addAll(pairUp.pairFlight(flightsNon,reFlightsOne));
             pairAll.addAll(pairUp.pairFlight(flightsOne,reFlightsNon));
-            pairAll.add(pairUp.pairFlight(flightsOne,reFlightsOne));
-            pairAll.add(pairNon);
+            pairAll.addAll(pairUp.pairFlight(flightsOne,reFlightsOne));
+            pairAll.addAll(pairNon);
 
 
             //将搜索总数存入session以便分页

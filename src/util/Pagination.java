@@ -19,6 +19,7 @@ public class Pagination {
         //首先将两个list合并准备查找
         ArrayList all = new ArrayList(nonStop);
         all.addAll(oneStop);
+
         switch(sortingType) {
             case "price(low to high)":
                 SortTicket.sortTicketByPriceAscending(all);
@@ -36,7 +37,7 @@ public class Pagination {
     public static List distiguishHelper(ArrayList flights, int pageNum){
         List result = new ArrayList<>();
         int start = SIZE * (pageNum - 1) ;
-        int end = ( SIZE * pageNum - 1) > flights.size() ? flights.size() : ( 10 * pageNum - 1);
+        int end = ( SIZE * pageNum - 1) > (flights.size() - 1 )? (flights.size() - 1) : ( 10 * pageNum - 1);
         for(int i = start ; i <= end ; i ++){
             result.add(flights.get(i));
         }
@@ -78,7 +79,7 @@ public class Pagination {
 
 
         Pagination p = new Pagination();
-        List<Ticket> result = p.distinguish(list1,list2, 1, "price(high to low)");
+        List<Ticket> result = p.distinguish(list1,list2, 3, "price(high to low)");
         for(int i = 0; i < result.size(); i++){
             System.out.println(result.get(i).getPrice());
         }

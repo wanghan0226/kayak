@@ -15,7 +15,11 @@ public class TicketContent {
         this.flights = flights;
     }
 
-    public List<Flight> getFligts(){
+    public List<Flight> getFlights(){
         return flights;
+    }
+
+    public String getStopNum(){
+        return stopNum.toString();
     }
 }

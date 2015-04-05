@@ -68,34 +68,40 @@
     </div>
     <%--搜索结果显示--%>
     <div class="rows">
-      <c:forEach var="map" items="${showInfo}">
+      <c:forEach var="list" items="${showInfo}">
         <c:choose>
-          <c:when test="${map.key.getClass().name=='java.lang.String'}">
-            <c:choose>
-            <%--该页全是转机路线,并且是单程航线--%>
-            <c:when test="${map.key=='ONE' && trip=='single'}">
-              <%@include file="/WEB-INF/jsp/singleOneFlight.jsp"%>
-            </c:when>
-            <%--该页全是转机路线,并且是往返航线--%>
-            <c:when test="${map.key=='ONE' && trip=='round'}">
-              <%@include file="/WEB-INF/jsp/roundOneFlight.jsp"%>
-            </c:when>
-            </c:choose>
+          <c:when test="${list.flightType=='ROUND'}">
+            <%@include file="/WEB-INF/jsp/RoundFlightModel.jsp"%>
           </c:when>
-          <%--既有直飞又有转机--%>
-          <c:otherwise>
-            <c:choose>
-              <%--单程航班--%>
-              <c:when test="${trip=='single'}">
-                <%@include file="/WEB-INF/jsp/mixSingle.jsp"%>
-              </c:when>
-              <%--往返航班--%>
-              <c:when test="${trip=='round'}">
-                <%@include file="/WEB-INF/jsp/mixRound.jsp"%>
-              </c:when>
-            </c:choose>
-          </c:otherwise>
+          <c:when test="${list.flightType=='SINGLE'}">
+            <%@include file="/WEB-INF/jsp/SingleFlightModel.jsp"%>
+          </c:when>
         </c:choose>
+        <%--<c:choose>--%>
+          <%--<c:when test="${map.key.getClass().name=='java.lang.String'}">--%>
+            <%--<c:when test="${map.key=='ONE' && trip=='single'}">--%>
+              <%--<%@include file="/WEB-INF/jsp/singleOneFlight.jsp"%>--%>
+            <%--</c:when>--%>
+            <%--&lt;%&ndash;该页全是转机路线,并且是往返航线&ndash;%&gt;--%>
+            <%--<c:when test="${map.key=='ONE' && trip=='round'}">--%>
+              <%--<%@include file="/WEB-INF/jsp/roundOneFlight.jsp"%>--%>
+            <%--</c:when>--%>
+            <%--</c:choose>--%>
+          <%--</c:when>--%>
+          <%--&lt;%&ndash;既有直飞又有转机&ndash;%&gt;--%>
+          <%--<c:otherwise>--%>
+            <%--<c:choose>--%>
+              <%--&lt;%&ndash;单程航班&ndash;%&gt;--%>
+              <%--<c:when test="${trip=='single'}">--%>
+                <%--<%@include file="/WEB-INF/jsp/mixSingle.jsp"%>--%>
+              <%--</c:when>--%>
+              <%--&lt;%&ndash;往返航班&ndash;%&gt;--%>
+              <%--<c:when test="${trip=='round'}">--%>
+                <%--<%@include file="/WEB-INF/jsp/mixRound.jsp"%>--%>
+              <%--</c:when>--%>
+            <%--</c:choose>--%>
+          <%--</c:otherwise>--%>
+        <%--</c:choose>--%>
       </c:forEach>
     </div>
   </div>

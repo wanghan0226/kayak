@@ -1,5 +1,6 @@
 package servlet;
 
+import beans.Ticket;
 import util.Pagination;
 
 import javax.servlet.ServletException;
@@ -46,17 +47,17 @@ public class PageSeperator extends HttpServlet {
         //将当前页存入session
         session.setAttribute("currentPage",pageNumber);
 
-        List showInfo = null;
+        List<Ticket> showInfo = null;
         if(type.equals("oneWay")){//如果是单程
             request.setAttribute("trip","single");
             //首先获取直飞和转机的航班
-            List oneStop = (List) session.getAttribute("goOneStop");
-            List nonStop = (List) session.getAttribute("goNonStop");
+            List<Ticket> oneStop = (List) session.getAttribute("goOneStop");
+            List<Ticket> nonStop = (List) session.getAttribute("goNonStop");
 
             showInfo = Pagination.distinguish(nonStop, oneStop, pageNumber, sortingType);
         }else {//如果有返航
             request.setAttribute("trip","round");
-            List pairOne = (List) session.getAttribute("pairOne");
+            List<Ticket> pairOne = (List) session.getAttribute("pairOne");
             List pairNon = (List) session.getAttribute("pairNon");
             showInfo = Pagination.distinguish(pairNon, pairOne, pageNumber, sortingType);
         }

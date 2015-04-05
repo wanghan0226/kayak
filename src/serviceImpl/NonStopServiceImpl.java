@@ -96,7 +96,7 @@ public class NonStopServiceImpl implements NonStopService{
             Ticket ticket = list.get(i);
             System.out.println(ticket.getPrice());
             System.out.println(ticket.getFlightType());
-            System.out.println(ticket.getTicketContents().get(0).getFligts());
+            System.out.println(ticket.getTicketContents().get(0).getFlights());
             System.out.println(ticket.getDuration());
 //            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
 //

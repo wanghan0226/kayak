@@ -23,7 +23,7 @@ import java.util.*;
 public class PairFlightsImpl implements PairFlights{
     @Override
     public List<Ticket> pairFlight(List<Ticket> goFlights, List<Ticket> comeFlights){
-        List list = new ArrayList();
+        List<Ticket> list = new ArrayList();
        for(Ticket go : goFlights){
            List<TicketContent> contentOne = go.getTicketContents();
            float goPrice = go.getPrice();

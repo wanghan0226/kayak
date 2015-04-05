@@ -19,9 +19,7 @@ import java.util.*;
 public class Ticket {
     private float price;
     private long duration;
-    private FLIGHT_TYPE flight_type;
-//    private long departureTime;
-//    private long arrivalTime;
+    private FLIGHT_TYPE flightType;
     List<TicketContent> ticketContents; /* For example: <Round, <one-stop, <Flight1, Flight2>....>>*/
 
 
@@ -32,14 +30,14 @@ public class Ticket {
      */
     public Ticket(FLIGHT_TYPE flightType,  List<TicketContent> ticketContent, float price, long duration){
         this.ticketContents = ticketContent;
-        this.flight_type = flightType;
+        this.flightType = flightType;
         this.price = price;
 //        this.arrivalTime = arrivalTime;
 //        this.departureTime = departureTime;
         this.duration = duration;
     }
-    public FLIGHT_TYPE getFlightType(){
-        return flight_type;
+    public String getFlightType(){
+        return flightType.toString();
     }
 
     public List<TicketContent> getTicketContents(){
@@ -53,12 +51,6 @@ public class Ticket {
         return duration;
     }
 
-//    public long getDepartureTime() {
-//        return departureTime;
-//    }
-//
-//    public long getArrivalTime() {
-//        return arrivalTime;
-//    }
+
 
 }

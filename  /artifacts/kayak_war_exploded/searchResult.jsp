@@ -66,13 +66,19 @@
         </table>
       </div>
     </div>
-    <%--&lt;%&ndash;搜索结果显示&ndash;%&gt;--%>
-    <%--<div class="rows">--%>
-      <%--<c:forEach var="map" items="${showInfo}">--%>
+    <%--搜索结果显示--%>
+    <div class="rows">
+      <c:forEach var="list" items="${showInfo}">
+        <c:choose>
+          <c:when test="${list.flightType=='ROUND'}">
+            <%@include file="/WEB-INF/jsp/RoundFlightModel.jsp"%>
+          </c:when>
+          <c:when test="${list.flightType=='SINGLE'}">
+            <%@include file="/WEB-INF/jsp/SingleFlightModel.jsp"%>
+          </c:when>
+        </c:choose>
         <%--<c:choose>--%>
           <%--<c:when test="${map.key.getClass().name=='java.lang.String'}">--%>
-            <%--<c:choose>--%>
-            <%--&lt;%&ndash;该页全是转机路线,并且是单程航线&ndash;%&gt;--%>
             <%--<c:when test="${map.key=='ONE' && trip=='single'}">--%>
               <%--<%@include file="/WEB-INF/jsp/singleOneFlight.jsp"%>--%>
             <%--</c:when>--%>
@@ -96,41 +102,41 @@
             <%--</c:choose>--%>
           <%--</c:otherwise>--%>
         <%--</c:choose>--%>
-      <%--</c:forEach>--%>
-    <%--</div>--%>
-  <%--</div>--%>
-  <%--<div id="pageSeparator">--%>
-    <%--<c:choose>--%>
-      <%--<c:when test="${currentPage==1}">--%>
-        <%--Prev--%>
-      <%--</c:when>--%>
-      <%--<c:otherwise>--%>
-        <%--<a href="${pageContext.request.contextPath}/page?pageNumber=${currentPage-1}">Prev</a>--%>
-      <%--</c:otherwise>--%>
-    <%--</c:choose>--%>
-    <%--<span>--%>
-      <%--<c:forEach var="i" begin="1" end="${totalPages}" >--%>
-        <%--<c:choose>--%>
-          <%--<c:when test="${i==currentPage}">--%>
-              <%--${i}--%>
-          <%--</c:when>--%>
-          <%--<c:otherwise>--%>
-            <%--<a href="${pageContext.request.contextPath}/page?pageNumber=${i}">--%>
-                <%--${i}--%>
-            <%--</a>--%>
-          <%--</c:otherwise>--%>
-        <%--</c:choose>--%>
-      <%--</c:forEach>--%>
-    <%--</span>--%>
-    <%--<c:choose>--%>
-      <%--<c:when test="${currentPage==totalPages}">--%>
-        <%--Next--%>
-      <%--</c:when>--%>
-      <%--<c:otherwise>--%>
-        <%--<a href="${pageContext.request.contextPath}/page?pageNumber=${currentPage+1}">Next</a>--%>
-      <%--</c:otherwise>--%>
-    <%--</c:choose>--%>
-  <%--</div>--%>
+      </c:forEach>
+    </div>
+  </div>
+  <div id="pageSeparator">
+    <c:choose>
+      <c:when test="${currentPage==1}">
+        Prev
+      </c:when>
+      <c:otherwise>
+        <a href="${pageContext.request.contextPath}/page?pageNumber=${currentPage-1}">Prev</a>
+      </c:otherwise>
+    </c:choose>
+    <span>
+      <c:forEach var="i" begin="1" end="${totalPages}" >
+        <c:choose>
+          <c:when test="${i==currentPage}">
+              ${i}
+          </c:when>
+          <c:otherwise>
+            <a href="${pageContext.request.contextPath}/page?pageNumber=${i}">
+                ${i}
+            </a>
+          </c:otherwise>
+        </c:choose>
+      </c:forEach>
+    </span>
+    <c:choose>
+      <c:when test="${currentPage==totalPages}">
+        Next
+      </c:when>
+      <c:otherwise>
+        <a href="${pageContext.request.contextPath}/page?pageNumber=${currentPage+1}">Next</a>
+      </c:otherwise>
+    </c:choose>
+  </div>
 
 ${showInfo}
 ${trip}
