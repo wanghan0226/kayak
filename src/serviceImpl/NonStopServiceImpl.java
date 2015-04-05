@@ -40,7 +40,9 @@ public class NonStopServiceImpl implements NonStopService{
                     if(coachLeft>=numOfPassenger){
                         String num = flightElement.attribute("Number").getValue();
                         Flight flight = info.findFlightByNumber(num, document);
-                        TicketContent content = new TicketContent(STOP_NUM.NON_STOP, new LinkedList<Flight>());
+                        List<Flight> flightList = new LinkedList<Flight>();
+                        flightList.add(flight);
+                        TicketContent content = new TicketContent(STOP_NUM.NON_STOP, flightList);
                         List<TicketContent> list = new ArrayList<TicketContent>();
                         list.add(content);
 //                        Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE, list, price, departureTime.getTime(), arrivalTime.getTime(), timeInterval);

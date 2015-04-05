@@ -28,13 +28,14 @@
               <%--TODO: time calculation is not correct--%>
               <c:set value="${(ticketContent.flights['0'].flightTime)/(1000*60)}" var="totalMinGo"/>
               <td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>
+              <td class="minorInfo">Non Stop(${ticketContent.flights['1'].departCode})</td>
             </c:when>
             <c:when test="${ticketContent.stopNum == 'ONE_STOP'}">
               <td>${ticketContent.flights['0'].departCode} <b><fmt:formatDate value="${ticketContent.flights['0'].departTime}" pattern="HH:mm"/></b></td>
               <td>${ticketContent.flights['1'].arriveCode} <b><fmt:formatDate value="${ticketContent.flights['1'].arriveTime}" pattern="HH:mm"/></b></td>
               <c:set value="${list.duration}" var="totalMin"/>
               <td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>
-              <td class="minorInfo">1 stop(${ticketContent.flights['1'].departCode})</td>
+              <td class="minorInfo">One Stop(${ticketContent.flights['1'].departCode})</td>
             </c:when>
           </c:choose>
         </c:forEach>
