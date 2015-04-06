@@ -1,4 +1,3 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: bunny
@@ -6,6 +5,7 @@
   Time: 7:19 PM
   To change this template use File | Settings | File Templates.
 --%>
+<div class="cell">
   <div class="left">
     <div class="price">
       <fmt:setLocale value="en_US"/>
@@ -22,6 +22,7 @@
       <tr>
         <c:forEach var="ticketContent" items="${list.ticketContents}">
           <c:choose>
+            <%--Non-stop flight--%>
             <c:when test="${ticketContent.stopNum == 'NON_STOP'}">
               <td>${ticketContent.flights['0'].departCode} <b><fmt:formatDate value="${ticketContent.flights['0'].departTime}" pattern="HH:mm"/></b></td>
               <td>${ticketContent.flights['0'].arriveCode} <b><fmt:formatDate value="${ticketContent.flights['0'].arriveTime}" pattern="HH:mm"/></b></td>
@@ -30,6 +31,7 @@
               <%--<td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>--%>
               <td class="minorInfo">Non Stop(${ticketContent.flights['0'].departCode})</td>
             </c:when>
+            <%--One-stop flight--%>
             <c:when test="${ticketContent.stopNum == 'ONE_STOP'}">
               <td>${ticketContent.flights['0'].departCode} <b><fmt:formatDate value="${ticketContent.flights['0'].departTime}" pattern="HH:mm"/></b></td>
               <td>${ticketContent.flights['1'].arriveCode} <b><fmt:formatDate value="${ticketContent.flights['1'].arriveTime}" pattern="HH:mm"/></b></td>
@@ -45,7 +47,7 @@
       </tr>
     </table>
   </div>
-
+</div>
 <%--飞行转机细节--%>
 <div class="transferDetail">
   <%--出发航程--%>
@@ -135,5 +137,4 @@
       </tr>
     </table>
   </div>
-</div>
 </div>
