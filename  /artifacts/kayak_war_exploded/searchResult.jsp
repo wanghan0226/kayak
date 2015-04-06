@@ -77,31 +77,6 @@
             <%@include file="/WEB-INF/jsp/SingleFlightModel.jsp"%>
           </c:when>
         </c:choose>
-        <%--<c:choose>--%>
-          <%--<c:when test="${map.key.getClass().name=='java.lang.String'}">--%>
-            <%--<c:when test="${map.key=='ONE' && trip=='single'}">--%>
-              <%--<%@include file="/WEB-INF/jsp/singleOneFlight.jsp"%>--%>
-            <%--</c:when>--%>
-            <%--&lt;%&ndash;该页全是转机路线,并且是往返航线&ndash;%&gt;--%>
-            <%--<c:when test="${map.key=='ONE' && trip=='round'}">--%>
-              <%--<%@include file="/WEB-INF/jsp/roundOneFlight.jsp"%>--%>
-            <%--</c:when>--%>
-            <%--</c:choose>--%>
-          <%--</c:when>--%>
-          <%--&lt;%&ndash;既有直飞又有转机&ndash;%&gt;--%>
-          <%--<c:otherwise>--%>
-            <%--<c:choose>--%>
-              <%--&lt;%&ndash;单程航班&ndash;%&gt;--%>
-              <%--<c:when test="${trip=='single'}">--%>
-                <%--<%@include file="/WEB-INF/jsp/mixSingle.jsp"%>--%>
-              <%--</c:when>--%>
-              <%--&lt;%&ndash;往返航班&ndash;%&gt;--%>
-              <%--<c:when test="${trip=='round'}">--%>
-                <%--<%@include file="/WEB-INF/jsp/mixRound.jsp"%>--%>
-              <%--</c:when>--%>
-            <%--</c:choose>--%>
-          <%--</c:otherwise>--%>
-        <%--</c:choose>--%>
       </c:forEach>
     </div>
   </div>
