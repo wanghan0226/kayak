@@ -19,34 +19,35 @@
   <%--右半部分--%>
   <div class="right">
     <table class="flightDetail">
-      <tr>
         <c:forEach var="ticketContent" items="${list.ticketContents}">
           <c:choose>
             <%--Non-stop flight--%>
             <c:when test="${ticketContent.stopNum == 'NON_STOP'}">
-              <td>${ticketContent.flights[0].departCode} <b><fmt:formatDate value="${ticketContent.flights[0].departTime}" pattern="HH:mm"/></b></td>
-              <td>${ticketContent.flights[0].arriveCode} <b><fmt:formatDate value="${ticketContent.flights[0].arriveTime}" pattern="HH:mm"/></b></td>
-              <%--<c:set value="${(ticketContent.flights[0].arriveTime.time - ticketContent.flights[0].departTime.time)/(1000*60)}" var="totalMin"/>--%>
-              <%--<td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>--%>
-              <%--connect['0'].flightTime + connect['1'].flightTime--%>
-              <td class="minorInfo">Non Stop </td>
+              <tr>
+                <td>${ticketContent.flights[0].departCode} <b><fmt:formatDate value="${ticketContent.flights[0].departTime}" pattern="HH:mm"/></b></td>
+                <td>${ticketContent.flights[0].arriveCode} <b><fmt:formatDate value="${ticketContent.flights[0].arriveTime}" pattern="HH:mm"/></b></td>
+                <%--<c:set value="${(ticketContent.flights[0].arriveTime.time - ticketContent.flights[0].departTime.time)/(1000*60)}" var="totalMin"/>--%>
+                <%--<td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>--%>
+                <%--connect['0'].flightTime + connect['1'].flightTime--%>
+                <td class="minorInfo">Non Stop </td>
+              </tr>
             </c:when>
-
             <%--One-stop flight--%>
             <c:when test="${ticketContent.stopNum == 'ONE_STOP'}">
-              <td>${ticketContent.flights[0].departCode} <b><fmt:formatDate value="${ticketContent.flights[0].departTime}" pattern="HH:mm"/></b></td>
-              <td>${ticketContent.flights[1].arriveCode} <b><fmt:formatDate value="${ticketContent.flights[1].arriveTime}" pattern="HH:mm"/></b></td>
+              <tr>
+                <td>${ticketContent.flights[0].departCode} <b><fmt:formatDate value="${ticketContent.flights[0].departTime}" pattern="HH:mm"/></b></td>
+                <td>${ticketContent.flights[1].arriveCode} <b><fmt:formatDate value="${ticketContent.flights[1].arriveTime}" pattern="HH:mm"/></b></td>
 
-              <%--<c:set value="${(ticketContent.flights['1'].arrivalTime.time-ticketContent.flights[1].departTime.time)/(1000*60)+ticketContent.flights['0'].arrivalTime.time-ticketContent.flights[0].departTime.time + ticketContent.flights['1'].departTime.time-ticketContent.flights[0].arrivalTime.time}" var="totalMin"/>--%>
-              <%--<td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>--%>
-              <%--connect['0'].flightTime + connect['1'].flightTime--%>
-              <td class="minorInfo">One stop</td>
+                <%--<c:set value="${(ticketContent.flights['1'].arrivalTime.time-ticketContent.flights[1].departTime.time)/(1000*60)+ticketContent.flights['0'].arrivalTime.time-ticketContent.flights[0].departTime.time + ticketContent.flights['1'].departTime.time-ticketContent.flights[0].arrivalTime.time}" var="totalMin"/>--%>
+                <%--<td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>--%>
+                <%--connect['0'].flightTime + connect['1'].flightTime--%>
+                <td class="minorInfo">One stop</td>
+              </tr>
             </c:when>
-
           </c:choose>
         </c:forEach>
       <tr>
-        <%--<td colspan="3"><button onclick="showDetail(this)" class="detailLink">Show Detail</button></td>--%>
+        <td colspan="3"><button onclick="showDetail(this)" class="detailLink">Show Detail</button></td>
       </tr>
     </table>
   </div>

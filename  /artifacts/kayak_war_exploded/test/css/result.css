@@ -122,7 +122,15 @@
     /*border: 1px solid black;*/
     font-family: 'Arial', sans-serif;
 }
-.transferDetail{
+/*.transferDetail{*/
+    /*display: none;*/
+/*}*/
+
+.oneStopTransferDetail{
+    display: none;
+}
+
+.nonStopTransferDetail{
     display: none;
 }
 

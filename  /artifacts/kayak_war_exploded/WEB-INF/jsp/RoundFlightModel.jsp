@@ -19,32 +19,36 @@
   <%--右半部分--%>
   <div class="right">
     <table class="flightDetail">
-      <tr>
-        <c:forEach var="ticketContent" items="${list.ticketContents}">
+        <c:forEach var="ticketContent" items="${list.ticketContents}" varStatus="loopCounter">
           <c:choose>
             <%--Non-stop flight--%>
             <c:when test="${ticketContent.stopNum == 'NON_STOP'}">
-              <td>${ticketContent.flights['0'].departCode} <b><fmt:formatDate value="${ticketContent.flights['0'].departTime}" pattern="HH:mm"/></b></td>
-              <td>${ticketContent.flights['0'].arriveCode} <b><fmt:formatDate value="${ticketContent.flights['0'].arriveTime}" pattern="HH:mm"/></b></td>
-              <%--TODO: time calculation is not correct--%>
-              <%--<c:set value="${(ticketContent.flights['0'].flightTime)/(1000*60)}" var="totalMinGo"/>--%>
-              <%--<td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>--%>
-              <td class="minorInfo">Non Stop(${ticketContent.flights['0'].departCode})</td>
+              <tr>
+                <td>${ticketContent.flights['0'].departCode} <b><fmt:formatDate value="${ticketContent.flights['0'].departTime}" pattern="HH:mm"/></b></td>
+                <td>${ticketContent.flights['0'].arriveCode} <b><fmt:formatDate value="${ticketContent.flights['0'].arriveTime}" pattern="HH:mm"/></b></td>
+                <%--TODO: time calculation is not correct--%>
+                <%--<c:set value="${(ticketContent.flights['0'].flightTime)/(1000*60)}" var="totalMinGo"/>--%>
+                <%--<td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>--%>
+                <td class="minorInfo">Non Stop(${ticketContent.flights['0'].departCode})</td>
+              </tr>
             </c:when>
             <%--One-stop flight--%>
             <c:when test="${ticketContent.stopNum == 'ONE_STOP'}">
-              <td>${ticketContent.flights['0'].departCode} <b><fmt:formatDate value="${ticketContent.flights['0'].departTime}" pattern="HH:mm"/></b></td>
-              <td>${ticketContent.flights['1'].arriveCode} <b><fmt:formatDate value="${ticketContent.flights['1'].arriveTime}" pattern="HH:mm"/></b></td>
-              <%--<c:set value="${list.duration}" var="totalMin"/>--%>
-              <%--<td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>--%>
-              <td class="minorInfo">One Stop(${ticketContent.flights['1'].departCode})</td>
+              <tr>
+                <td>${ticketContent.flights['0'].departCode} <b><fmt:formatDate value="${ticketContent.flights['0'].departTime}" pattern="HH:mm"/></b></td>
+                <td>${ticketContent.flights['1'].arriveCode} <b><fmt:formatDate value="${ticketContent.flights['1'].arriveTime}" pattern="HH:mm"/></b></td>
+                <%--<c:set value="${list.duration}" var="totalMin"/>--%>
+                <%--<td class="minorInfo"><fmt:parseNumber integerOnly="true" value="${totalMin/60}"/>h <fmt:formatNumber value="${totalMin%60}" pattern="#" type="number"/>m </td>--%>
+                <td class="minorInfo">One Stop(${ticketContent.flights['1'].departCode})</td>
+              </tr>
             </c:when>
           </c:choose>
+          <c:if test="${loopCounter.count=='2'}">
+            <tr>
+              <td colspan="3"><button onclick="showDetail(this)" class="detailLink">Show Detail</button></td>
+            </tr>
+          </c:if>
         </c:forEach>
-        </tr>
-      <tr>
-        <%--<td colspan="3"><button onclick="showDetail(this)" class="detailLink">Show Detail</button></td>--%>
-      </tr>
     </table>
   </div>
 </div>
