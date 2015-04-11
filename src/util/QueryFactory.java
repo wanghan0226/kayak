@@ -26,6 +26,18 @@ public class QueryFactory {
         return "?team=Team09&action=list&list_type=arriving" +
                 "&airport="+code+"&day="+formatDate+"";
     }
+
+    public static String lock(){
+        return "team=Team09&action=lockDB";
+    }
+
+    public static String unlock(){
+        return "team=Team09&action=unlockDB";
+    }
+
+    public static String reserve(String xmlFlights){
+        return "team=Team09&action=buyTickets&flightData="+xmlFlights;
+    }
     public static void main(String[] args) {
         GregorianCalendar calendar = new GregorianCalendar(2015, 04, 07);
         Date date = calendar.getTime();

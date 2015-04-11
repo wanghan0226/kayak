@@ -108,6 +108,6 @@ public class Flight {
 
     @Override
     public String toString() {
-        return number+":"+planeType+":"+departCode+":"+arriveCode;
+        return number+":"+planeType+":"+departCode+":"+arriveCode+":"+flightTime;
     }
 }

@@ -49,68 +49,85 @@
           <tr>
             <td>
               Sort by:
-              <select name="sorting" id="sortBy">
-                <option>price(low to high)</option>
-                <option>price(high to low)</option>
-                <option>airline(A to Z)</option>
-                <option>airline(Z to A)</option>
-                <option>duration(shorter to longer)</option>
-                <option>duration(longer to shorter)</option>
+              <select id="sortBy" onchange="changeFunc()">
+                <option></option>
+                <option value="1" ${fn:contains(selected, "priceAsc")?'selected':''}>price(low to high)</option>
+                <option value="2" ${fn:contains(selected, "priceDes")?'selected':''}>price(high to low)</option>
+                <option value="3" ${fn:contains(selected, "timeAsc")?'selected':''}>duration(shorter to longer)</option>
+                <option value="4" ${fn:contains(selected, "timeDes")?'selected':''}>duration(longer to shorter)</option>
               </select>
             </td>
             <td style="text-align: left">
-              <input type="checkbox" name="nonStop" value="0" checked>nonstop<br>
-              <input type="checkbox" name="multiStop" value="1" checked>multi-stop<br>
+              <input id="nonStop" type="checkbox" name="stops" value="NON" onchange="isChecked()" ${fn:contains(fn:join(showType, ","), "NON")?'checked':''}>nonstop<br>
+              <input id="oneStop" type="checkbox" name="stops" value="ONE" onchange="isChecked()" ${fn:contains(fn:join(showType, ","), "ONE")?'checked':''}>multi-stop<br>
             </td>
-          </tr>="
+          </tr>
         </table>
       </div>
     </div>
     <%--搜索结果显示--%>
-    <div class="rows">
-      <c:forEach var="list" items="${showInfo}">
-        <c:choose>
-          <c:when test="${list.flightType=='ROUND'}">
-            <%@include file="/WEB-INF/jsp/RoundFlightModel.jsp"%>
-          </c:when>
-          <c:when test="${list.flightType=='SINGLE'}">
-            <%@include file="/WEB-INF/jsp/SingleFlightModel.jsp"%>
-          </c:when>
-        </c:choose>
-      </c:forEach>
+      <c:choose>
+        <c:when test="${type=='oneWay'}">
+          <c:forEach var="showItem" items="${showInfo}">
+            <c:choose>
+              <%--单程航班直飞--%>
+              <c:when test="${showItem.value.getClass().name=='beans.Flight'}">
+                <%@include file="/WEB-INF/jsp/singleNon.jsp"%>
+              </c:when>
+              <%--单程航班并且有转机--%>
+              <c:otherwise>
+                <%@include file="/WEB-INF/jsp/singleOne.jsp"%>
+              </c:otherwise>
+            </c:choose>
+          </c:forEach>
+        </c:when>
+        <c:otherwise>
+          <c:forEach var="showItem" items="${showInfo}">
+            <c:choose>
+              <%--往返航班直飞--%>
+              <c:when test="${showItem.value['0'].getClass().name=='beans.Flight'}">
+                <%@include file="/WEB-INF/jsp/roundNon.jsp"%>
+              </c:when>
+              <%--往返航班并且有转机--%>
+              <c:otherwise>
+                <%@include file="/WEB-INF/jsp/roundOne.jsp"%>
+              </c:otherwise>
+            </c:choose>
+          </c:forEach>
+        </c:otherwise>
+      </c:choose>
     </div>
   </div>
   <div id="pageSeparator">
-    <c:choose>
-      <c:when test="${currentPage==1}">
-        Prev
-      </c:when>
-      <c:otherwise>
-        <a href="${pageContext.request.contextPath}/page?pageNumber=${currentPage-1}">Prev</a>
-      </c:otherwise>
-    </c:choose>
-    <span>
-      <c:forEach var="i" begin="1" end="${totalPages}" >
-        <c:choose>
-          <c:when test="${i==currentPage}">
-              ${i}
-          </c:when>
-          <c:otherwise>
-            <a href="${pageContext.request.contextPath}/page?pageNumber=${i}">
-                ${i}
-            </a>
-          </c:otherwise>
-        </c:choose>
+    <%--<c:forEach var="pageBean" items="${pagebean.pageBar}" varStatus="i">--%>
+      <%--<a href="${pageContext.request.contextPath}/page?pageNumber=${i}">--%>
+          <%--${pageBean[i]}--%>
+      <%--</a>--%>
+    <%--</c:forEach>--%>
+      <c:choose>
+        <c:when test="${pagebean.currentPage==1}">
+          Prev
+        </c:when>
+        <c:otherwise>
+          <a href="${pageContext.request.contextPath}/perfect?pageNumber=${pagebean.prePage}">Prev</a>
+        </c:otherwise>
+      </c:choose>
+      <c:forEach var="pageNum" items="${pagebean.pageBar}">
+        <c:if test="${pageNum==pagebean.currentPage}">
+          <b style="color: #cc0000">${pageNum}</b>
+        </c:if>
+        <c:if test="${pageNum!=pagebean.currentPage}">
+          <a href="${pageContext.request.contextPath}/perfect?pageNumber=${pageNum}">${pageNum}</a>
+        </c:if>
       </c:forEach>
-    </span>
-    <c:choose>
-      <c:when test="${currentPage==totalPages}">
-        Next
-      </c:when>
-      <c:otherwise>
-        <a href="${pageContext.request.contextPath}/page?pageNumber=${currentPage+1}">Next</a>
-      </c:otherwise>
-    </c:choose>
+      <c:choose>
+        <c:when test="${pagebean.currentPage==pagebean.totalPage}">
+          Next
+        </c:when>
+        <c:otherwise>
+          <a href="${pageContext.request.contextPath}/perfect?pageNumber=${pagebean.nextPage}">Next</a>
+        </c:otherwise>
+      </c:choose>
   </div>
 
 ${showInfo}

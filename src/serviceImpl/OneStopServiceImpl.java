@@ -1,6 +1,8 @@
 package serviceImpl;
 
-import beans.*;
+import beans.Flight;
+import beans.SearchKey;
+import beans.SortingBean;
 import dao.AirportDao;
 import dao.ConnectDao;
 import factory.DaoFactory;
@@ -11,16 +13,16 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import service.OneStopService;
+import service.PairFlights;
 import util.ConstantVariable;
 import util.QueryFactory;
-import util.SortTicket;
 import util.XmlConnection;
 
 import java.net.URL;
 import java.util.*;
 
 /**
- * @author pianobean
+ * @author pianobean on 3/11/15.
  */
 public class OneStopServiceImpl implements OneStopService{
     private static Document airports;
@@ -34,40 +36,10 @@ public class OneStopServiceImpl implements OneStopService{
             throw new RuntimeException(e);
         }
     }
-
-    static class flightsWithInfo{
-        List<String> flights;
-        float price;
-//        long depatureTime;
-//        long arrivalTime;
-        long duration;
-
-        flightsWithInfo(List<String> flights, float price, long duration){
-            this.flights = flights;
-            this.price = price;
-//            this.depatureTime = depatureTime;
-//            this.arrivalTime = arrivalTime;
-            this.duration = duration;
-        }
-
-        float getPrice(){
-            return price;
-        }
-
-        long getDuration() { return duration; }
-
-//        long getDepatureTime() { return depatureTime; }
-//
-//        long getArrivalTime() { return  arrivalTime; }
-
-        List<String> getFlights(){
-            return flights;
-        }
-    }
-    private static List<flightsWithInfo> findMatchFlights(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
+    private static List<List<String>> findMatchFlights(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
         boolean flag = true;
         if(seatType== ConstantVariable.FIRST) flag=false;
-        List<flightsWithInfo> list = new ArrayList<flightsWithInfo>();
+        List<List<String>> list = new ArrayList<List<String>>();
         ConnectDao connect = DaoFactory.getInstance().getConnectFlights();
         List<SearchKey> departKeys = connect.airportSearchInfo(depart, ConstantVariable.DEPART);
         List<SearchKey> arriveKeys = connect.airportSearchInfo(arrive, ConstantVariable.ARRIVE);
@@ -76,21 +48,15 @@ public class OneStopServiceImpl implements OneStopService{
             for(SearchKey key: departKeys){
                 String code = key.getAirportCode();
                 String number = key.getNumber();
-                float priceOne = key.getCoachPrice();
                 Date date = key.getDate();
                 int coach = key.getCoachSeat();
-                long timeStart = key.getDepartureTime();
                 for(int i=0; i<arriveKeys.size(); i++){
                     SearchKey arrday = arriveKeys.get(i);
-                    float priceTwo = arrday.getCoachPrice();
-                    long timeEnd = key.getArrivalTime();
                     if(code.equals(arrday.getAirportCode()) && date.compareTo(arrday.getDate())<0 && coach>=numOfPassenger && arrday.getCoachSeat()>=numOfPassenger){
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart + timeEnd);
-//                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart, timeEnd, timeStart + timeEnd);
-                        list.add(singleRes);
+                        list.add(pair);
                     }
                 }
             }
@@ -99,19 +65,13 @@ public class OneStopServiceImpl implements OneStopService{
                 String number = key.getNumber();
                 Date date = key.getDate();
                 int coach = key.getCoachSeat();
-                float priceOne = key.getCoachPrice();
-                long timeStart = key.getDepartureTime();
                 for(int i=0; i<nextDayKeys.size(); i++){
                     SearchKey arrday = nextDayKeys.get(i);
-                    float priceTwo = arrday.getCoachPrice();
-                    long timeEnd = key.getArrivalTime();
                     if(code.equals(arrday.getAirportCode()) && date.compareTo(arrday.getDate())<0 && coach>=numOfPassenger && arrday.getCoachSeat()>=numOfPassenger){
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-//                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart, timeEnd, timeStart + timeEnd);
-                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,timeStart + timeEnd);
-                        list.add(singleRes);
+                        list.add(pair);
                     }
                 }
             }
@@ -121,19 +81,13 @@ public class OneStopServiceImpl implements OneStopService{
                 String number = key.getNumber();
                 Date date = key.getDate();
                 int first = key.getFirstSeat();
-                float priceOne = key.getFirstPrice();
-                long timeStart = key.getDepartureTime();
                 for(int i=0; i<arriveKeys.size(); i++){
                     SearchKey arrday = arriveKeys.get(i);
-                    float priceTwo = arrday.getFirstPrice();
-                    long timeEnd = key.getArrivalTime();
                     if(code.equals(arrday.getAirportCode()) && date.compareTo(arrday.getDate())<0 && first>=numOfPassenger && arrday.getFirstSeat()>=numOfPassenger){
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-//                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart, timeEnd, timeStart + timeEnd);
-                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,timeStart + timeEnd);
-                        list.add(singleRes);
+                        list.add(pair);
                     }
                 }
             }
@@ -142,36 +96,28 @@ public class OneStopServiceImpl implements OneStopService{
                 String number = key.getNumber();
                 Date date = key.getDate();
                 int first = key.getFirstSeat();
-                float priceOne = key.getFirstPrice();
-                long timeStart = key.getDepartureTime();
                 for(int i=0; i<nextDayKeys.size(); i++){
                     SearchKey arrday = nextDayKeys.get(i);
-                    float priceTwo = arrday.getFirstPrice();
-                    long timeEnd = key.getArrivalTime();
                     if(code.equals(arrday.getAirportCode()) && date.compareTo(arrday.getDate())<0 && first>=numOfPassenger && arrday.getFirstSeat()>=numOfPassenger){
                         List<String> pair = new ArrayList();
                         pair.add(number);
                         pair.add(arrday.getNumber());
-//                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,  timeStart, timeEnd, timeStart + timeEnd);
-                        flightsWithInfo singleRes  = new flightsWithInfo(pair,priceOne + priceTwo,timeStart + timeEnd);
-                        list.add(singleRes);
+                        list.add(pair);
                     }
                 }
             }
         }
         return list;
     }
-    private static List<Ticket> findValidOneStopFlights(List<flightsWithInfo> choices, Document deDoc, Document arDoc, Document arNextDoc){
-        List<Ticket> result = new ArrayList<Ticket>();
-//        Iterator it = choices.iterator();
+
+
+    private static List<List<Flight>> findValidOneStopFlights(List<List<String>> choices, Document deDoc, Document arDoc, Document arNextDoc){
+            List<List<Flight>> list = new ArrayList<List<Flight>>();
+        Iterator it = choices.iterator();
         AirportDao functions = DaoFactory.getInstance().getAirportFunctions();
-        for (flightsWithInfo choice: choices){
-                List<String> pair = choice.getFlights();
-                float price = choice.getPrice();
-                long time = choice.getDuration();
-//                long depatureTime = choice.getDepatureTime();
-//                long arrivalTime = choice.getArrivalTime();
-                String deNum = pair.get(0);
+        while (it.hasNext()){
+            List<String> pair = (List<String>) it.next();
+            String deNum = pair.get(0);
             String arNum = pair.get(1);
             Flight departFlight = functions.findFlightByNumber(deNum, deDoc);
             Flight arriveFlight = null;
@@ -191,24 +137,78 @@ public class OneStopServiceImpl implements OneStopService{
                 List<Flight> validPair = new ArrayList<Flight>();
                 validPair.add(departFlight);
                 validPair.add(arriveFlight);
-                TicketContent content = new TicketContent(STOP_NUM.ONE_STOP, validPair);
-                List<TicketContent> contents = new ArrayList<TicketContent>();
-                contents.add(content);
-//                Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE,contents,price,depatureTime, arrivalTime, time);
-                Ticket ticket = new Ticket(FLIGHT_TYPE.SINGLE,contents,price,time);
-                result.add(ticket);
+                list.add(validPair);
             }
         }
+        return list;
+    }
 
-        return result;
+    private static Map<SortingBean, List<Flight>> findValidOneStopFlights1(List<List<String>> choices, Document deDoc, Document arDoc, Document arNextDoc, String seatType){
+        Map<SortingBean, List<Flight>> map = new HashMap<SortingBean, List<Flight>>();
+        Iterator it = choices.iterator();
+        AirportDao functions = DaoFactory.getInstance().getAirportFunctions();
+
+        while (it.hasNext()){
+            List<String> pair = (List<String>) it.next();
+            String deNum = pair.get(0);
+            String arNum = pair.get(1);
+            Flight departFlight = functions.findFlightByNumber(deNum, deDoc);
+            Flight arriveFlight = null;
+            try {
+                arriveFlight = functions.findFlightByNumber(arNum,arDoc);
+            }catch (Exception e){
+                arriveFlight =functions.findFlightByNumber(arNum,arNextDoc);
+            }
+            String startCode = departFlight.getDepartCode();
+            String endCode = arriveFlight.getArriveCode();
+            long distance = distance(startCode, endCode);
+            long firstHalf = distance(departFlight.getDepartCode(),departFlight.getArriveCode());
+            long lastHalf = distance(arriveFlight.getDepartCode(),arriveFlight.getArriveCode());
+
+            if((firstHalf+lastHalf)<distance*2){
+                int totalTime = findTotalMinutes(departFlight.getDepartTime(), arriveFlight.getArriveTime());
+                double price;
+                if(seatType.equals(ConstantVariable.COACH)){
+                    price = departFlight.getCoachPrice()+arriveFlight.getCoachPrice();
+                }else {
+                    price = departFlight.getFirstPrice()+departFlight.getFirstPrice();
+                }
+
+                SortingBean sort = new SortingBean();
+                sort.setTotalTime(totalTime);
+                sort.setTotalPrice(price);
+//                System.out.println(distance+"---"+(firstHalf+lastHalf));
+                List<Flight> validPair = new ArrayList<Flight>();
+                validPair.add(departFlight);
+                validPair.add(arriveFlight);
+                map.put(sort,validPair);
+            }
+        }
+        return map;
+    }
+
+    private static int findTotalMinutes(Date departTime, Date arriveTime) {
+
+        long totalLong = arriveTime.getTime()-departTime.getTime();
+        int time = (int) (totalLong/(1000*60));
+        return time;
     }
 
     @Override
-    public List<Ticket> validOneStop(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
+    public List<List<Flight>> validOneStop(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay){
         List raw = findMatchFlights(seatType,numOfPassenger,depart,arrive,arrNextDay);
-        List<Ticket> list = findValidOneStopFlights(raw,depart,arrive,arrNextDay);
+        List<List<Flight>> list = findValidOneStopFlights(raw,depart,arrive,arrNextDay);
         return list;
     }
+
+    @Override
+    public Map<SortingBean, List<Flight>> validOneStop1(String seatType, int numOfPassenger, Document depart, Document arrive, Document arrNextDay) {
+        List raw = findMatchFlights(seatType, numOfPassenger, depart, arrive, arrNextDay);
+        Map map =  findValidOneStopFlights1(raw, depart, arrive, arrNextDay, seatType);
+        return map;
+    }
+
+
 
     private static long distance(String departCode, String arriveCode){
         Element deAirport = (Element) airports.selectSingleNode("//Airport[@Code='"+departCode+"']");
@@ -252,22 +252,12 @@ public class OneStopServiceImpl implements OneStopService{
             e.printStackTrace();
         }
         OneStopService stopService = ServiceFactory.getInstance().getOneStopService();
-        List<Ticket> list = stopService.validOneStop(ConstantVariable.COACH, 10, departdoc,arrivedoc,arrivedoc1);
-        for(int i = 0; i < list.size(); i++){
-            Ticket ticket = list.get(i);
-            System.out.println(ticket.getPrice());
-            System.out.println(ticket.getFlightType());
-            System.out.println(ticket.getTicketContents().get(0).getFlights());
-        }
-
-        SortTicket.sortTicketByPriceAscending(list);
-        System.out.println("------------------华丽分割线------------------------");
-        for(int i = 0; i < list.size(); i++){
-            Ticket ticket = list.get(i);
-            System.out.println(ticket.getPrice());
-            System.out.println(ticket.getFlightType());
-            System.out.println(ticket.getTicketContents().get(0).getFlights());
-            System.out.println(ticket.getDuration());
-        }
+        Map map = stopService.validOneStop1(ConstantVariable.COACH, 1, departdoc, arrivedoc, arrivedoc1);
+        System.out.println(map);
+        Map map1 = stopService.validOneStop1(ConstantVariable.FIRST, 1, departdoc, arrivedoc, arrivedoc1);
+        System.out.println(map1);
+        PairFlights pair = new PairFlightsImpl();
+        Map re = pair.pairOneStop1(map, map1);
+        System.out.println(re);
     }
 }

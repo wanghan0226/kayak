@@ -50,6 +50,8 @@ public class XmlConnection {
         return result.toString();
     }
 
+
+
     //Test the connection
     public static void main(String[] args) {
         GregorianCalendar calendar = new GregorianCalendar(2015, 04, 9);

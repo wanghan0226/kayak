@@ -1,13 +1,7 @@
 package factory;
 
-import service.AirportService;
-import service.NonStopService;
-import service.OneStopService;
-import service.PairFlights;
-import serviceImpl.AirportServiceImpl;
-import serviceImpl.NonStopServiceImpl;
-import serviceImpl.OneStopServiceImpl;
-import serviceImpl.PairFlightsImpl;
+import service.*;
+import serviceImpl.*;
 
 /**
  *@author pianobean on 3/12/15.
@@ -30,4 +24,5 @@ public class ServiceFactory {
     public PairFlights getPairFlights(){
         return new PairFlightsImpl();
     }
+    public SortFlights getSortedFlights(){ return new SortFlightsImpl(); }
 }

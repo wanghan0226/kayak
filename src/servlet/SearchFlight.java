@@ -1,6 +1,5 @@
 package servlet;
 
-import beans.Ticket;
 import beans.Trip;
 import factory.ServiceFactory;
 import org.dom4j.Document;
@@ -19,7 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author  pianobean on 3/2/15.
@@ -55,7 +57,7 @@ public class SearchFlight extends HttpServlet {
 
         //告知下一层是单程还是往返
         session.setAttribute("type",type);
-
+        System.out.println(type);
         //分页信息
 //        String pageNumber = request.getParameter("pageNumber");
 //        if(pageNumber!=null){
@@ -87,9 +89,9 @@ public class SearchFlight extends HttpServlet {
 
 
         //获取一次转机的匹配集合
-        List<Ticket> flightsOne = oneStop.validOneStop(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, deDom, arDom, nextDom);
+        Map flightsOne = oneStop.validOneStop1(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, deDom, arDom, nextDom);
         //获取直达航班
-        List<Ticket> flightsNon = nonStop.findNonStopFlights(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH,passenger,arriveCode,deDom);
+        Map flightsNon = nonStop.findNonStopFlights1(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, arriveCode, deDom);
         /*
             返程航班
          */
@@ -110,50 +112,28 @@ public class SearchFlight extends HttpServlet {
             Date returnNext = cal.getTime();
             Document returnNextDom = service.getArriveDom(departCode, returnNext);
 
-            List reFlightsOne = oneStop.validOneStop(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, returnDeDom, returnArDom, returnNextDom);
-            List reFlightsNon = nonStop.findNonStopFlights(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, departCode, returnDeDom);
+            Map reFlightsOne = oneStop.validOneStop1(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, returnDeDom, returnArDom, returnNextDom);
+            Map reFlightsNon = nonStop.findNonStopFlights1(seat.equals("First") ? ConstantVariable.FIRST : ConstantVariable.COACH, passenger, departCode, returnDeDom);
 
-//            将出发航班与返回航班进行匹配
+            //将出发航班与返回航班进行匹配
             PairFlights pairUp = ServiceFactory.getInstance().getPairFlights();
-//            List pairOne = pairUp.pairOneStop(flightsOne, reFlightsOne);
-//            List pairNon = pairUp.pairNonStop(flightsNon,reFlightsNon);
-
-
-            List<Ticket> pairNon = pairUp.pairFlight(flightsNon, reFlightsNon);
-            List<Ticket> pairAll = new ArrayList<Ticket>();
-            pairAll.addAll(pairUp.pairFlight(flightsNon,reFlightsOne));
-            pairAll.addAll(pairUp.pairFlight(flightsOne,reFlightsNon));
-            pairAll.addAll(pairUp.pairFlight(flightsOne,reFlightsOne));
-            pairAll.addAll(pairNon);
-
-
-            //将搜索总数存入session以便分页
-            int totalItems = pairNon.size()+pairAll.size();
-            System.out.println(totalItems);
-            int pageNumbers = (int) Math.ceil((double)totalItems/10);
-            System.out.println(pageNumbers);
-            session.setAttribute("totalPages", pageNumbers);
-
+            Map pairOne = pairUp.pairOneStop1(flightsOne, reFlightsOne);
+//            System.out.println(pairOne);
+            Map pairNon = pairUp.pairNonStop1(flightsNon, reFlightsNon);
+//            System.out.println(pairNon);
             //将搜索结果传给下一层
-            session.setAttribute("pairOne",pairAll);
+            session.setAttribute("pairOne",pairOne);
             session.setAttribute("pairNon",pairNon);
-
         }else {
-            //将搜索总数存入session以便分页
-            int totalItems = flightsOne.size()+flightsNon.size();
-            System.out.println(totalItems);
-            int pageNumbers = (int) Math.ceil((double)totalItems/10);
-            System.out.println(pageNumbers);
-            session.setAttribute("totalPages", pageNumbers);
-
             //将搜索结果传给下一层
             session.setAttribute("goOneStop",flightsOne);
             session.setAttribute("goNonStop",flightsNon);
-
-            //to pass the info of return flight to PageSeperator
         }
         //将trip存入session
         session.setAttribute("tripInfo", trip);
+
+        String[] flightType = {"NON","ONE"};
+        session.setAttribute("showType",flightType);
         request.getRequestDispatcher("/page").forward(request,response);
     }
 

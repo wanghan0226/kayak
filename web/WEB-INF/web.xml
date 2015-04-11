@@ -19,8 +19,32 @@
         <servlet-name>PageSeperator</servlet-name> 
         <servlet-class>servlet.PageSeperator</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SortingServlet</servlet-name> 
+        <servlet-class>servlet.SortingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FlightType</servlet-name> 
+        <servlet-class>servlet.FlightType</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PerfectPage</servlet-name> 
+        <servlet-class>servlet.PerfectPage</servlet-class>
+    </servlet>
     
     
+    <servlet-mapping>
+        <servlet-name>PerfectPage</servlet-name>
+        <url-pattern>/perfect</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FlightType</servlet-name>
+        <url-pattern>/type</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SortingServlet</servlet-name>
+        <url-pattern>/sort</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PageSeperator</servlet-name>
         <url-pattern>/page</url-pattern>
